@@ -1,22 +1,21 @@
 # Maven specific
 target/
-*.iml
-*.ipr
-*.iws
-.idea/
 *.class
-*.jar
-*.war
-*.ear
-*.nar
-*.zip
-*.tar.gz
 dependency-reduced-pom.xml
 .mvn/
 mvnw
 mvnw.cmd
 release.properties
 buildNumber.properties
+
+# Package files
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
 
 # Logs
 log/
