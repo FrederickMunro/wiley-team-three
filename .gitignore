@@ -1,47 +1,49 @@
-# Maven
+# Maven specific
 target/
-*.jar
-*.war
-*.ear
 *.class
-!.mvn/wrapper/maven-wrapper.jar
-
-# IDE files
-.idea/
-*.iml
-*.ipr
-*.iws
-.project
-.classpath
-.settings/
-.vscode/
-.project
-
-# Eclipse-specific files
-bin/
-*.launch
-.settings/
-.classpath
-.project
-
-# Intellij-specific files
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# Compiled Java bytecode
-*.class
-
-# Logs
-*.log
-logs/
+dependency-reduced-pom.xml
+.mvn/
+mvnw
+mvnw.cmd
+release.properties
+buildNumber.properties
 
 # Package files
 *.jar
 *.war
 *.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
 
-# npm
+# Logs
+log/
+*.log
+
+# Eclipse specific
+.classpath
+.project
+.settings/
+
+# Intellij IDEA specific
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# NetBeans specific
+nbproject/private/
+build/
+
+# Visual Studio Code specific
+.vscode/
+.history/
+*.suo
+*.sln.docstates
+*.code-workspace
+
+# npm & Node
+node_modules/
 npm-debug.log
 yarn-error.log
