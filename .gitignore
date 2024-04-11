@@ -1,0 +1,49 @@
+# Maven specific
+target/
+*.class
+dependency-reduced-pom.xml
+.mvn/
+mvnw
+mvnw.cmd
+release.properties
+buildNumber.properties
+
+# Package files
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Logs
+log/
+*.log
+
+# Eclipse specific
+.classpath
+.project
+.settings/
+
+# Intellij IDEA specific
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# NetBeans specific
+nbproject/private/
+build/
+
+# Visual Studio Code specific
+.vscode/
+.history/
+*.suo
+*.sln.docstates
+*.code-workspace
+
+# npm & Node
+node_modules/
+npm-debug.log
+yarn-error.log
