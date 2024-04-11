@@ -1,0 +1,47 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+*.class
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+.project
+
+# Eclipse-specific files
+bin/
+*.launch
+.settings/
+.classpath
+.project
+
+# Intellij-specific files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Compiled Java bytecode
+*.class
+
+# Logs
+*.log
+logs/
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# npm
+npm-debug.log
+yarn-error.log
