@@ -1,5 +1,4 @@
-# C381 Java - Team 3
-# Stock Trading App
+# C381 Java Team 3 - Stock Trading App
 
 ## Backend
 ### TODO
