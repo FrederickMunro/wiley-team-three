@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing a User.
+ * This class maps to the "app_user" table in the database with fields such as first name, last name, etc.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

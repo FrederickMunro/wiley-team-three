@@ -16,7 +16,9 @@ import wileyt3.backend.service.UserService;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
-
+/**
+ * Provides authentication services by handling JWT creation and validation.
+ */
 @RequiredArgsConstructor
 @Component
 public class UserAuthProvider {
@@ -25,12 +27,18 @@ public class UserAuthProvider {
     private String secretKey;
 
     private final UserService userService;
-
+    /**
+     * Initializes component, encoding the secret key using Base64 to enhance security.
+     */
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
-
+    /**
+     * Creates a JWT token for a given user identifier (login).
+     * @param login the user identifier
+     * @return a signed JWT string
+     */
     public String createToken(String login) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + 3_600_000);
@@ -43,6 +51,11 @@ public class UserAuthProvider {
 
     }
 
+    /**
+     * Validates a JWT token and authenticates the user by extracting the user details.
+     * @param token the JWT to validate
+     * @return an Authentication object if valid, null otherwise
+     */
     public Authentication validateToken(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secretKey)).build();
 
@@ -53,6 +66,11 @@ public class UserAuthProvider {
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
 
+    /**
+     * Validates a JWT token with a strong check (using a more secure algorithm setup).
+     * @param token the JWT to validate
+     * @return an Authentication object if valid, null otherwise
+     */
     public Authentication validateTokenStrongly(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 

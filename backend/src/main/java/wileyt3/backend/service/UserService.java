@@ -15,6 +15,9 @@ import wileyt3.backend.repository.UserRepository;
 import java.nio.CharBuffer;
 import java.util.Optional;
 
+/**
+ * Service class for managing user-related operations such as registration and login.
+ */
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -25,6 +28,12 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    /**
+     * Authenticates a user by their credentials.
+     *
+     * @param credentialsDto contains the login and password for authentication
+     * @return UserDto if authentication is successful
+     */
     public UserDto login(CredentialsDto credentialsDto) {
         User user = userRepository.findByLogin(credentialsDto.login())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
@@ -35,6 +44,12 @@ public class UserService {
         throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Registers a new user into the system.
+     *
+     * @param userDto contains user registration information
+     * @return UserDto of the newly created user
+     */
     public UserDto register(SignUpDto userDto) {
         Optional<User> optionalUser = userRepository.findByLogin(userDto.login());
 
@@ -50,6 +65,12 @@ public class UserService {
         return userMapper.toUserDto(savedUser);
     }
 
+    /**
+     * Finds a user by their login.
+     *
+     * @param login the user's login
+     * @return UserDto containing the user's details
+     */
     public UserDto findByLogin(String login) {
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));

@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * DTO for User representing user details.
+ * This class is used to pass user information between the client and server layers.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
