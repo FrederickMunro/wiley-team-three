@@ -5,21 +5,51 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 
 import './main.css';
+import Header from './components/header/Header.jsx';
+import Home from './components/home/Home.jsx';
+import Signup from './components/signup/Signup.jsx';
 
 
-const routes = [
+const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <>
+        <Header />
+        <Home />
+      </>
+    ),
   },
-];
-
-const router = createBrowserRouter(routes);
+  {
+    path: '/portfolio',
+    element: (
+      <>
+        <Header />
+        <App />
+      </>
+    )
+  },
+  {
+    path: '/market',
+    element: (
+      <>
+        <Header />
+        <App />
+      </>
+    )
+  },
+  {
+    path: '/signup',
+    element: (
+      <>
+        <Signup />
+      </>
+    )
+  }
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );

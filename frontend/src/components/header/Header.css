@@ -1,0 +1,120 @@
+
+
+@media only screen and (max-width: 767px) {
+  .header-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vw 0 1vw 0;
+    background-color: var(--main-color);
+  }
+
+  .home-button {
+    border: none;
+    background: none;
+    cursor: pointer;;
+  }
+
+  .home-logo {
+    height: min(max(5rem, 12vw), 7.5rem);
+  }
+  
+  .menu-button {
+    text-decoration: none;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: max(3rem, 7vw);
+    letter-spacing: 0.1rem;
+    font-weight: 300;
+    padding: 0;
+    margin: 1rem;
+  }
+
+  .menu-invisible {
+    left: 100vw;
+  }
+
+  .menu-visible {
+    left: 0;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    position: fixed;
+    height: calc(100vh - min(max(5rem, 12vw), 7.5rem) - 2vw);
+    width: 100vw;
+    top: calc(min(max(5rem, 12vw), 7.5rem) + 2vw);
+    transition: left 0.5s ease;
+  }
+
+  .menu-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex-grow: 1;
+    width: 80%;
+  }
+
+  .hamburger-menu-button {
+    background: none;
+    cursor: pointer;
+    border: none;
+  }
+
+  .hamburger-menu-icon {
+    height: min(max(4rem, 11vw), 6rem);
+    width: min(max(4rem, 11vw), 6rem);
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .header-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+  }
+
+  .home-button {
+    border: none;
+    background: none;
+    cursor: pointer;;
+  }
+
+  .home-logo {
+    height: min(max(5rem, 12vw), 7.5rem);
+  }
+  
+  .menu-button {
+    text-decoration: none;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.1rem;
+    font-weight: 300;
+    padding: 0;
+    margin: 1rem;
+  }
+  
+  .menu {
+    background-color: white;
+  }
+
+  .menu-nav {
+    display: flex;
+  }
+
+  .hamburger-menu-button {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+}

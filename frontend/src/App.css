@@ -1,8 +1,10 @@
-.test {
-  width: 600px;
-  height: 600px;
+#root {
+  padding: 0;
+  margin: 0;
 }
 
 .container {
   display: flex;
+  width: 100vw;
+  flex-grow: 1;
 }
