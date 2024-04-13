@@ -61,7 +61,7 @@ public class UserAuthProvider {
 
         DecodedJWT decodedJWT = verifier.verify(token);
 
-        UserDto user = userService.findByLogin(decodedJWT.getIssuer());
+        UserDto user = userService.findByUsername(decodedJWT.getIssuer());
 
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
@@ -79,7 +79,7 @@ public class UserAuthProvider {
 
         DecodedJWT decoded = verifier.verify(token);
 
-        UserDto user = userService.findByLogin(decoded.getSubject());
+        UserDto user = userService.findByUsername(decoded.getSubject());
 
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }

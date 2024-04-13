@@ -35,7 +35,7 @@ public class UserService {
      * @return UserDto if authentication is successful
      */
     public UserDto login(CredentialsDto credentialsDto) {
-        User user = userRepository.findByLogin(credentialsDto.login())
+        User user = userRepository.findByUsername(credentialsDto.username())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
@@ -51,7 +51,7 @@ public class UserService {
      * @return UserDto of the newly created user
      */
     public UserDto register(SignUpDto userDto) {
-        Optional<User> optionalUser = userRepository.findByLogin(userDto.login());
+        Optional<User> optionalUser = userRepository.findByUsername(userDto.username());
 
         if (optionalUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
@@ -68,11 +68,11 @@ public class UserService {
     /**
      * Finds a user by their login.
      *
-     * @param login the user's login
+     * @param userName the user's login
      * @return UserDto containing the user's details
      */
-    public UserDto findByLogin(String login) {
-        User user = userRepository.findByLogin(login)
+    public UserDto findByUsername(String userName) {
+        User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return userMapper.toUserDto(user);
     }
