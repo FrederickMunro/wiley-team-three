@@ -1,4 +1,3 @@
-import { elements } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
 const AreaChart = () => {
@@ -73,7 +72,7 @@ const AreaChart = () => {
   }
 
   return (
-    <Line data={data} options={options} responsive={true} />
+    <Line data={data} options={options} />
   );
 }
 

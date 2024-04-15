@@ -1,0 +1,86 @@
+.signup-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signup-body {
+  width: min(80vw, 45rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.signup-title {
+  font-size: 2.8rem;
+  padding: 0;
+  margin: 0;
+}
+
+.signup-input-container {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.signup-input-title {
+  font-size: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.signup-input {
+  width: calc(100% - 4rem);
+  padding: 2rem 2rem 2rem 2rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  border-radius: 1rem;
+  transition: border-color 0.3s ease;
+  border: 1px solid var(--main-color);
+}
+
+.signup-input:focus {
+  outline: 1px solid var(--main-color);
+}
+
+.green-border {
+  border-color: green;
+}
+
+.red-border {
+  border-color: red;
+}
+
+.signup-input-error-message {
+  color: red;
+  font-size: 1.2rem;
+  padding: 0 1rem 0 1rem;
+}
+
+.signup-submit-button {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 2rem 0 2rem 0;
+  margin-top: 2rem;
+  border-radius: 4rem;
+  font-size: 2rem;
+}
+
+.auth-redirect-button {
+  width: 15rem;
+  padding: 1.5rem 0 1.5rem 0;
+  border: none;
+  border-radius: 3rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}

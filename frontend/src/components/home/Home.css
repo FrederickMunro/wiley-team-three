@@ -39,14 +39,6 @@
     color: white;
     background-color: var(--main-color);
   }
-
-  .white-background {
-    background: var(--second-color);
-  }
-
-  .grey-background {
-    background: var(--main-color)
-  }
   
   .chart {
     padding: 3vw 3vw 3vw 3vw;
