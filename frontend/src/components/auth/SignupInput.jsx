@@ -1,6 +1,3 @@
-import { useState } from "react";
-
-
 const SignupInput = ({ title, placeholder, value, setValue, type, borderColor }) => {
 
   const handleValueChange = (e) => {

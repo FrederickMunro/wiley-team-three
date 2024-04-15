@@ -6,7 +6,7 @@ import axios from 'axios';
 import HomeButton from '../header/HomeButton';
 import SignupInput from './SignupInput';
 
-import './Signup.css';
+import './Auth.css';
 
 const Signup = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -16,6 +16,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordBorderColor, setPasswordBorderColor] = useState("");
+  const [usernameBorderColor, setUsernameBorderColor] = useState("");
+  const [usernameDuplicate, setUsernameDuplicate] = useState("");
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     if (password !== "") {
@@ -33,13 +36,17 @@ const Signup = () => {
     }
   }, [password]);
 
+  useEffect(() => {
+    setUsernameBorderColor("");
+    setUsernameDuplicate("");
+  }, [username])
+
   const handleSubmit = () => {
     const passwordRegex = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`\-|\\])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
     if (!username || !email || !password) {
-      alert("Please fill in all fields");
-      return;
+      setNotification("Please fill in all fields");
     } else if (!passwordRegex.test(password)) {
-      alert('Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one digit, and one special character.');
+      setNotification('Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one digit, and one special character.');
     } else {
       axios.post(API_URL + '/register', {
         username: username,
@@ -47,10 +54,15 @@ const Signup = () => {
         email: email.toLowerCase(),
       })
       .then(res => {
+        setNotification('Registration successful.');
+        setUsernameBorderColor('');
         console.log('Successfully registered:', res);
       })
       .catch(err => {
-        console.log('Register unsuccessful', err);
+        setUsernameDuplicate('Username already in use.');
+        setNotification("");
+        setUsernameBorderColor('red-border');
+        console.log('Register unsuccessful:', err.response.data.message);
       })
     }
   }
@@ -71,15 +83,19 @@ const Signup = () => {
           value={username}
           setValue={setUsername}
           type='text'
-          borderColor='grey-border'
+          borderColor={usernameBorderColor}
         />
+        {
+          usernameDuplicate !== "" &&
+          <p className="signup-input-error-message">{usernameDuplicate}</p>
+        }
         <SignupInput
           title='Email'
           placeholder={'Email'}
           value={email}
           setValue={setEmail}
           type='email'
-          borderColor='grey-border'
+          borderColor=''
         />
         <SignupInput
           title='Password'
@@ -92,6 +108,10 @@ const Signup = () => {
         {
           passwordError !== "" &&
           <p className="signup-input-error-message">{passwordError}</p>
+        }
+        {
+          notification !== "" &&
+          <p className="signup-input-error-message">{notification}</p>
         }
         <button className='signup-submit-button grey-background white-color' onClick={handleSubmit}>Create account</button>
       </div>

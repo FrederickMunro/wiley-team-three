@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import HomeButton from '../header/HomeButton';
-import SignupInput from '../signup/SignupInput';
+import SignupInput from './SignupInput';
 
-import '../signup/Signup.css';
+import './Auth.css';
 
 const Login = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -20,6 +20,10 @@ const Login = () => {
     })
     .then(res => {
       console.log('Login successful:', res.data);
+      const now = new Date();
+      const expiryDate = new Date(now.getTime() + 60 * 60 * 1000);
+      const expiresUTC = expiryDate.toUTCString();
+      document.cookie = `token=${res.data.token}; path=/; expires=${expiresUTC};`;
     })
     .catch(err => {
       console.log('Login unsuccessful', err);

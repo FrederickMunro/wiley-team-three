@@ -5,8 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import Header from './components/header/Header.jsx';
 import Home from './components/home/Home.jsx';
-import Signup from './components/signup/Signup.jsx';
-import Login from './components/login/Login.jsx';
+import Signup from './components/auth/Signup.jsx';
+import Login from './components/auth/Login.jsx';
 
 import './main.css';
 
