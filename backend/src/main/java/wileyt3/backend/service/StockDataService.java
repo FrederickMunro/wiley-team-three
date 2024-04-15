@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wileyt3.backend.dto.StockApiDto;
 import wileyt3.backend.entity.Stock;
+import wileyt3.backend.mapper.AllStocksMapper;
 import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
@@ -27,6 +28,8 @@ public class StockDataService {
 
     @Autowired
     private StockMapper stockMapper;
+    @Autowired
+    private AllStocksMapper allStockMapper;
     @Autowired
     private StockRepository stockRepository;
 
@@ -66,7 +69,7 @@ public class StockDataService {
         if (stockApiDtos != null) {
             Map<String, Stock> stocks = new HashMap<>();
             for (StockApiDto dto : stockApiDtos) {
-                Stock stock = stockMapper.stockApiDtoToStock(dto);
+                Stock stock = stockMapper.allStockApiDtoToStock(dto);
                 stocks.put(stock.getSymbol(), stock);
             }
             return stocks;
