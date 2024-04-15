@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -33,5 +35,5 @@ public class Stock {
     private String exchange;
 
     @Column(name = "last_price", precision = 10)
-    private Double lastPrice;
+    private BigDecimal lastPrice;
 }

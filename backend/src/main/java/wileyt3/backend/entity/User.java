@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Builder
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
 
     @Id
@@ -41,7 +41,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
     @PrePersist
