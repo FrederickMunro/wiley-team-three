@@ -1,7 +1,8 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  font-size: 62.5%; /* Sets 1rem = 10px (16px * 0.625) */
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -11,4 +12,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --main-color: #333333;
+  --second-color: #FFFFFF;
+}
+
+body {
+  padding: 0;
+  margin: 0;
 }
