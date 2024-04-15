@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import wileyt3.backend.dto.CredentialsDto;
 import wileyt3.backend.dto.SignUpDto;
 import wileyt3.backend.dto.UserDto;
+import wileyt3.backend.entity.Role;
 import wileyt3.backend.entity.User;
 import wileyt3.backend.exception.AppException;
 import wileyt3.backend.mapper.UserMapper;
+import wileyt3.backend.repository.RoleRepository;
 import wileyt3.backend.repository.UserRepository;
 
 import java.nio.CharBuffer;
@@ -25,9 +27,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final UserMapper userMapper;
 
     /**
@@ -58,12 +59,14 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
         }
+        Role defaultRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new AppException("Unknown role", HttpStatus.NOT_FOUND));
 
         User user = userMapper.signUpToUser(userDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.password())));
+        user.setRole(defaultRole);
 
         User savedUser = userRepository.save(user);
-
         return userMapper.toUserDto(savedUser);
     }
 
