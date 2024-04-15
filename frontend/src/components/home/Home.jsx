@@ -12,7 +12,7 @@ const Home = () => {
         <div className='home-section'>
           <h1 className='home-section-title'>Invest. Trade. Track. Grow.</h1>
           <p className='home-section-text'>
-            Stock Trader provides a secure environment for acquiring, trading, and monitoring your financial market assets.
+            Stock Trader provides a secure environment for acquiring, trading, and monitoring financial market assets.
             Our platform enables seamless trading of stocks, ETFs, and cryptocurrencies through an intuitive and efficient interface.
           </p>
           <Link to='/signup'>
@@ -35,9 +35,9 @@ const Home = () => {
           <div className='snp-number-container'>
             <div>
               <p>Open</p>
-              <p>High</p>
-              <p>Low</p>
               <p>Close</p>
+              <p>52-Week High</p>
+              <p>52-Week Low</p>
               <p>Volume</p>
             </div>
             <div>

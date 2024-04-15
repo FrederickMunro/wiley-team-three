@@ -32,11 +32,11 @@
   }
 
   .menu-invisible {
-    left: 100vw;
+    width: 0;
   }
 
   .menu-visible {
-    left: 0;
+    width: 100vw;
   }
   
   .menu {
@@ -47,9 +47,9 @@
     background-color: var(--main-color);
     position: fixed;
     height: calc(100vh - min(max(5rem, 12vw), 7.5rem) - 2vw);
-    width: 100vw;
     top: calc(min(max(5rem, 12vw), 7.5rem) + 2vw);
-    transition: left 0.5s ease;
+    transition: width 0.5s ease;
+    right: 0;
   }
 
   .menu-nav {
