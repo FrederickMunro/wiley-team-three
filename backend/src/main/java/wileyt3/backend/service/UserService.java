@@ -2,6 +2,8 @@ package wileyt3.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import wileyt3.backend.dto.CredentialsDto;
@@ -75,6 +77,15 @@ public class UserService {
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return userMapper.toUserDto(user);
+    }
+
+    public User authenticateUser(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
+        }
+        return user;
     }
 
 }
