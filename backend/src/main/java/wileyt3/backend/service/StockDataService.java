@@ -13,6 +13,9 @@ import wileyt3.backend.entity.Stock;
 import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class StockDataService {
 
@@ -47,6 +50,26 @@ public class StockDataService {
             Stock stock = stockMapper.stockApiDtoToStock(stockApiDto);
             System.out.println("Mapped Stock: " + stock);
             return stock;
+        } else {
+            throw new RuntimeException("Failed to retrieve stock data from API.");
+        }
+    }
+
+    public Map<String, Stock> fetchAllStocks() {
+        String url = "https://paper-api.alpaca.markets/v2/assets";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APCA-API-KEY-ID", apiKey);
+        headers.set("APCA-API-SECRET-KEY", apiSecret);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<StockApiDto[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, StockApiDto[].class);
+        StockApiDto[] stockApiDtos = response.getBody();
+        if (stockApiDtos != null) {
+            Map<String, Stock> stocks = new HashMap<>();
+            for (StockApiDto dto : stockApiDtos) {
+                Stock stock = stockMapper.stockApiDtoToStock(dto);
+                stocks.put(stock.getSymbol(), stock);
+            }
+            return stocks;
         } else {
             throw new RuntimeException("Failed to retrieve stock data from API.");
         }
