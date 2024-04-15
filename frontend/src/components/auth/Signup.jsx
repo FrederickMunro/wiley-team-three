@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
+import CookieContext from '../CookieProvider';
 import HomeButton from '../header/HomeButton';
 import SignupInput from './SignupInput';
 
@@ -10,6 +10,9 @@ import './Auth.css';
 
 const Signup = () => {
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+  
+  const { setCookieExists } = useContext(CookieContext);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -54,9 +57,15 @@ const Signup = () => {
         email: email.toLowerCase(),
       })
       .then(res => {
+        console.log('Successfully registered:', res);
         setNotification('Registration successful.');
         setUsernameBorderColor('');
-        console.log('Successfully registered:', res);
+        const now = new Date();
+        const expiryDate = new Date(now.getTime() + 60 * 60 * 1000);
+        const expiresUTC = expiryDate.toUTCString();
+        document.cookie = `token=${res.data.token}; path=/; expires=${expiresUTC};`;
+        setCookieExists(true);
+        navigate('/', { replace: true });
       })
       .catch(err => {
         setUsernameDuplicate('Username already in use.');

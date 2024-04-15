@@ -4,14 +4,14 @@
   flex-direction: column;
   align-items: center;
 }
-
+  
 .signup-header {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
-
+  
 .signup-body {
   width: min(80vw, 45rem);
   display: flex;
@@ -19,13 +19,13 @@
   align-items: center;
   padding-top: 2rem;
 }
-
+  
 .signup-title {
   font-size: 2.8rem;
   padding: 0;
   margin: 0;
 }
-
+  
 .signup-input-container {
   margin-top: 3rem;
   width: 100%;
@@ -76,12 +76,55 @@
   font-size: 2rem;
 }
 
+.logout-button {
+  border: none;
+  border-radius: 5rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+  
 .auth-redirect-button {
-  width: 15rem;
-  padding: 1.5rem 0 1.5rem 0;
+  width: min(15rem, 50vw);
   border: none;
   border-radius: 3rem;
   font-size: 1.8rem;
   cursor: pointer;
   margin-right: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+  
+  .auth-redirect-button {
+    padding: max(min(1.5rem, 3vw), .8rem) 0 max(min(1.5rem, 3vw), .8rem) 0;
+  }
+
+  .logout-button {
+    align-self: flex-start;
+    margin-bottom: 5rem;
+    margin-left: 12%;
+    padding: 2vw 10vw 2vw 10vw;
+    font-size: max(2rem, 3vw);
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  
+  .auth-redirect-button {
+    padding: max(min(1.5rem, 2.8vw), .8rem) 0 max(min(1.5rem, 2.8vw), .8rem) 0;
+  }
+
+  .logout-button {
+    padding: 1vw 7vw 1vw 7vw;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  
+  .auth-redirect-button {
+    padding: max(min(1.5rem, 2.8vw), .8rem) 0 max(min(1.5rem, 2.8vw), .8rem) 0;
+  }
+
+  .logout-button {
+    padding: 1vw 7vw 1vw 7vw;
+  }
 }

@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import AreaChart from '../charts/AreaChart';
 
 import './Home.css';
+import { useContext, useEffect, useState } from 'react';
+import CookieContext from '../CookieProvider';
 
 const Home = () => {
+
+  const { cookieExists } = useContext(CookieContext);
 
   return (
     <div className='home-container'>
@@ -15,11 +19,15 @@ const Home = () => {
             Stock Trader provides a secure environment for acquiring, trading, and monitoring financial market assets.
             Our platform enables seamless trading of stocks, ETFs, and cryptocurrencies through an intuitive and efficient interface.
           </p>
-          <Link to='/signup'>
-            <button className='home-signup-button'>
-              Sign up
-            </button>
-          </Link>
+          {
+            cookieExists ? null : (
+              <Link to='/signup'>
+                <button className='home-signup-button'>
+                  Sign up
+                </button>
+              </Link>
+            )
+          }
         </div>
       </div>
       <div className='home-section-container grey-background'>

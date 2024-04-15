@@ -1,4 +1,12 @@
+.home-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
 
+.home-logo {
+  height: min(max(5rem, 12vw), 7.5rem);
+}
 
 @media only screen and (max-width: 767px) {
   .header-container {
@@ -8,16 +16,6 @@
     align-items: center;
     padding: 1vw 0 1vw 0;
     background-color: var(--main-color);
-  }
-
-  .home-button {
-    border: none;
-    background: none;
-    cursor: pointer;;
-  }
-
-  .home-logo {
-    height: min(max(5rem, 12vw), 7.5rem);
   }
   
   .menu-button {
@@ -81,16 +79,6 @@
     align-items: center;
     background-color: var(--main-color);
   }
-
-  .home-button {
-    border: none;
-    background: none;
-    cursor: pointer;;
-  }
-
-  .home-logo {
-    height: min(max(5rem, 12vw), 7.5rem);
-  }
   
   .menu-button {
     text-decoration: none;
@@ -104,11 +92,17 @@
   }
   
   .menu {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2rem;
     background-color: var(--main-color);
+    align-items: center;
+    flex-grow: 1;
   }
 
   .menu-nav {
     display: flex;
+    margin-right: 2vw;
   }
 
   .hamburger-menu-button {
@@ -117,4 +111,7 @@
 }
 
 @media only screen and (min-width: 1200px) {
+  .header-container {
+    
+  }
 }

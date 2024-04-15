@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
+
+import './main.css';
 import Header from './components/header/Header.jsx';
 import Home from './components/home/Home.jsx';
 import Signup from './components/auth/Signup.jsx';
 import Login from './components/auth/Login.jsx';
-
-import './main.css';
+import { CookieProvider } from './components/CookieProvider.jsx';
 
 
 const router = createBrowserRouter([
@@ -59,6 +60,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <CookieProvider>
+      <RouterProvider router={router} />
+    </CookieProvider>
   </React.StrictMode>,
 );
