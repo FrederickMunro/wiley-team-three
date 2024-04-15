@@ -1,5 +1,7 @@
 package wileyt3.backend.service;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,6 +15,8 @@ import wileyt3.backend.entity.Stock;
 import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
+import java.math.BigDecimal;
+
 @Service
 public class StockDataService {
 
@@ -20,7 +24,10 @@ public class StockDataService {
     private String apiKey;
 
     @Value("${alpaca.api.secret}")
+
     private String apiSecret;
+    @Value("${tiingo.api.token}")
+    private String tiingoToken;
 
     @Autowired
     private StockMapper stockMapper;
@@ -34,25 +41,49 @@ public class StockDataService {
     }
 
     public Stock fetchStockData(String symbol) {
-        String url = "https://paper-api.alpaca.markets/v2/assets/" + symbol;
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APCA-API-KEY-ID", apiKey);
-        headers.set("APCA-API-SECRET-KEY", apiSecret);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<StockApiDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, StockApiDto.class);
-        StockApiDto stockApiDto = response.getBody();
-        if (stockApiDto != null) {
-            System.out.println("DTO fetched: " + stockApiDto);
+        String alpacaUrl = "https://paper-api.alpaca.markets/v2/assets/" + symbol;
+        HttpHeaders alpacaHeaders = new HttpHeaders();
+        alpacaHeaders.set("APCA-API-KEY-ID", apiKey);
+        alpacaHeaders.set("APCA-API-SECRET-KEY", apiSecret);
+        HttpEntity<String> alpacaEntity = new HttpEntity<>(alpacaHeaders);
+        ResponseEntity<StockApiDto> alpacaResponse = restTemplate.exchange(alpacaUrl, HttpMethod.GET, alpacaEntity, StockApiDto.class);
 
-            Stock stock = stockMapper.stockApiDtoToStock(stockApiDto);
-            System.out.println("Mapped Stock: " + stock);
-            return stock;
+        if (alpacaResponse.getBody() != null) {
+            StockApiDto stockApiDto = alpacaResponse.getBody();
+            System.out.println("DTO fetched from Alpaca: " + stockApiDto);
+
+            // Fetching the closing price from Tiingo
+            String tiingoUrl = "https://api.tiingo.com/tiingo/daily/" + symbol + "/prices";
+            HttpHeaders tiingoHeaders = new HttpHeaders();
+            tiingoHeaders.set("Authorization", tiingoToken);
+            HttpEntity<String> tiingoEntity = new HttpEntity<>(tiingoHeaders);
+            ResponseEntity<StockPrice[]> tiingoResponse = restTemplate.exchange(tiingoUrl,HttpMethod.GET ,tiingoEntity, StockPrice[].class);
+
+            if (tiingoResponse.getBody() != null && tiingoResponse.getBody().length > 0) {
+                StockPrice stockPrice = tiingoResponse.getBody()[0];
+                System.out.println("Closing price fetched from Tiingo: " + stockPrice.getClose());
+
+                // Map Alpaca API DTO to Stock object and set the closing price
+                Stock stock = stockMapper.stockApiDtoToStock(stockApiDto);
+                stock.setLastPrice(stockPrice.getClose());
+                System.out.println("Mapped Stock with price: " + stock);
+                return stock;
+            } else {
+                throw new RuntimeException("Failed to retrieve stock price data from Tiingo.");
+            }
         } else {
-            throw new RuntimeException("Failed to retrieve stock data from API.");
+            throw new RuntimeException("Failed to retrieve stock data from Alpaca.");
         }
     }
 
     public Stock saveStock(Stock stock) {
         return stockRepository.save(stock);
+    }
+
+    @Setter
+    @Getter
+    static class StockPrice {
+        private BigDecimal close;
+
     }
 }
