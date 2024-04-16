@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserAuthProvider implements AuthenticationProvider {
 
-    @Value("${security.jwt.token.secret-key:secret-value}")
+    @Value("${security.jwt.token.secret-key}")
     private String secretKey;
 
     private final UserService userService;
@@ -40,7 +40,7 @@ public class UserAuthProvider implements AuthenticationProvider {
      */
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+       // secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
     /**
      * Creates a JWT token for a given user identifier (login).
