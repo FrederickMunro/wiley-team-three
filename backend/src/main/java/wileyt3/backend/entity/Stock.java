@@ -1,5 +1,6 @@
 package wileyt3.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 public class Stock {
 
     @Id
+    @JsonInclude(JsonInclude.Include.NON_NULL)      // exclude the id field from serialization when it's null. Can Also use @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -34,6 +36,7 @@ public class Stock {
     @Column(name = "exchange", length = 50)
     private String exchange;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)   // exclude the lastPrice field from serialization when it's null. Can Also use @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Column(name = "last_price", precision = 10)
     private BigDecimal lastPrice;
 }
