@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import wileyt3.backend.dto.AllStockApiDto;
 import wileyt3.backend.dto.StockApiDto;
 import wileyt3.backend.entity.Stock;
 import wileyt3.backend.mapper.AllStocksMapper;
@@ -64,12 +65,12 @@ public class StockDataService {
         headers.set("APCA-API-KEY-ID", apiKey);
         headers.set("APCA-API-SECRET-KEY", apiSecret);
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<StockApiDto[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, StockApiDto[].class);
-        StockApiDto[] stockApiDtos = response.getBody();
-        if (stockApiDtos != null) {
+        ResponseEntity<AllStockApiDto[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, AllStockApiDto[].class);
+        AllStockApiDto[] allStockApiDtos = response.getBody();
+        if (allStockApiDtos != null) {
             Map<String, Stock> stocks = new HashMap<>();
-            for (StockApiDto dto : stockApiDtos) {
-                Stock stock = stockMapper.allStockApiDtoToStock(dto);
+            for (AllStockApiDto dto : allStockApiDtos) {
+                Stock stock = allStockMapper.allStocksApiDtoToStock(dto);
                 stocks.put(stock.getSymbol(), stock);
             }
             return stocks;

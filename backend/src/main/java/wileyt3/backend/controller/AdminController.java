@@ -36,7 +36,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/admin/stocks")
+    @GetMapping("/admin/allstocks")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Stock>> getAllStocks() {
         Map<String, Stock> stockMap = stockDataService.fetchAllStocks();
