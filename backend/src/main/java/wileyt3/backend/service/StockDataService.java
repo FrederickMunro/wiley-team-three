@@ -10,12 +10,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import wileyt3.backend.dto.AllStockApiDto;
 import wileyt3.backend.dto.StockApiDto;
 import wileyt3.backend.entity.Stock;
+import wileyt3.backend.mapper.AllStocksMapper;
 import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class StockDataService {
@@ -24,13 +28,14 @@ public class StockDataService {
     private String apiKey;
 
     @Value("${alpaca.api.secret}")
-
     private String apiSecret;
     @Value("${tiingo.api.token}")
     private String tiingoToken;
 
     @Autowired
     private StockMapper stockMapper;
+    @Autowired
+    private AllStocksMapper allStockMapper;
     @Autowired
     private StockRepository stockRepository;
 
@@ -73,6 +78,26 @@ public class StockDataService {
             }
         } else {
             throw new RuntimeException("Failed to retrieve stock data from Alpaca.");
+        }
+    }
+
+    public Map<String, Stock> fetchAllStocks() {
+        String url = "https://paper-api.alpaca.markets/v2/assets";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APCA-API-KEY-ID", apiKey);
+        headers.set("APCA-API-SECRET-KEY", apiSecret);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<AllStockApiDto[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, AllStockApiDto[].class);
+        AllStockApiDto[] allStockApiDtos = response.getBody();
+        if (allStockApiDtos != null) {
+            Map<String, Stock> stocks = new HashMap<>();
+            for (AllStockApiDto dto : allStockApiDtos) {
+                Stock stock = allStockMapper.allStocksApiDtoToStock(dto);
+                stocks.put(stock.getSymbol(), stock);
+            }
+            return stocks;
+        } else {
+            throw new RuntimeException("Failed to retrieve stock data from API.");
         }
     }
 
