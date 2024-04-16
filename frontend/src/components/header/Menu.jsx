@@ -4,6 +4,7 @@ import './Header.css';
 
 import HamburgerMenu from './HamburgerMenu';
 import MenuItem from './MenuItem';
+import LogoutButton from '../auth/LogoutButton';
 
 const Menu = () => {
 
@@ -29,6 +30,7 @@ const Menu = () => {
             })
           }
         </nav>
+        <LogoutButton setIsOpen={setIsOpen} />
       </div>
       <HamburgerMenu isopen={isOpen} handlemenuclick={handleMenuClick} />
     </>

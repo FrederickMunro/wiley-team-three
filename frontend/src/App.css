@@ -8,3 +8,19 @@
   width: 100vw;
   flex-grow: 1;
 }
+
+.white-background {
+  background: var(--second-color);
+}
+
+.grey-background {
+  background: var(--main-color)
+}
+
+.grey-color {
+  color: var(--main-color);
+}
+
+.white-color {
+  color: var(--second-color);
+}
