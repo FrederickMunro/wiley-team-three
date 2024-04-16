@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -32,6 +34,6 @@ public class Crypto {
     @Column(name = "quote_currency", length = 10)
     private String quoteCurrency;
 
-    @Column(name = "last_price", precision = 16)
-    private Double lastPrice;
+    @Column(name = "last_price")
+    private BigDecimal lastPrice;
 }

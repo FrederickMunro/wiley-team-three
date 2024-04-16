@@ -6,10 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
 /**
  * A filter that runs once per request to check for JWT in the Authorization header.
  * It validates the token using UserAuthProvider and sets the SecurityContext if valid.
@@ -19,6 +23,8 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserAuthProvider userAuthProvider;
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
+
 
     /**
      * Filters each HTTP request, checks for JWT, and authenticates the user.
@@ -34,20 +40,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // Checks for the presence of a JWT in the Authorization header of incoming requests and validates it.
-        if (header != null) {
-            String[] elements = header.split(" ");
-            if (elements.length == 2 && elements[0].equals("Bearer")) {
-                try {
-                    SecurityContextHolder.getContext().setAuthentication((
-                            userAuthProvider.validateToken(elements[1])
-                    ));
-                } catch (RuntimeException e) {
-                    SecurityContextHolder.clearContext(); // Clear security context if token validation fails
-                    throw e; // Exception handling if token validation fails
-                }
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7); // Assuming the token is preceded by "Bearer "
+            try {
+                Authentication auth = userAuthProvider.validateToken(token);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                logger.info("Authentication set for user: {}", auth.getName());
+            } catch (Exception e) {
+                SecurityContextHolder.clearContext();
+                logger.error("Security context cleared due to exception: ", e);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Token validation failed");
+                return;
             }
         }
         filterChain.doFilter(request, response); // Proceed with the filter chain
     }
-
 }
+
+
