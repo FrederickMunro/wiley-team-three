@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +20,7 @@ import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +65,7 @@ public class StockDataService {
             HttpHeaders tiingoHeaders = new HttpHeaders();
             tiingoHeaders.set("Authorization", tiingoToken);
             HttpEntity<String> tiingoEntity = new HttpEntity<>(tiingoHeaders);
-            ResponseEntity<StockPrice[]> tiingoResponse = restTemplate.exchange(tiingoUrl,HttpMethod.GET ,tiingoEntity, StockPrice[].class);
+            ResponseEntity<StockPrice[]> tiingoResponse = restTemplate.exchange(tiingoUrl, HttpMethod.GET, tiingoEntity, StockPrice[].class);
 
             if (tiingoResponse.getBody() != null && tiingoResponse.getBody().length > 0) {
                 StockPrice stockPrice = tiingoResponse.getBody()[0];
@@ -105,10 +108,42 @@ public class StockDataService {
         return stockRepository.save(stock);
     }
 
+    public Stock findById(Integer id) {
+        return stockRepository.findById(id).orElse(null);
+    }
+
+    // Allows clients to specify the size of the page (size parameter),
+    // the page number (page parameter),
+    // and the sorting criteria (sort parameter)
+    public Page<Stock> findAll(Pageable pageable) {
+        return stockRepository.findAll(pageable);
+    }
+
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
+    }
+
+    public Stock updateStock(Integer id) {
+        Stock stock = findById(id);
+        if (stock == null) {
+            throw new RuntimeException("Stock not found.");
+        }
+        Stock updatedStock = fetchStockData(stock.getSymbol());
+        // Update fields
+        stock.setSymbol(updatedStock.getSymbol());
+        stock.setName(updatedStock.getName());
+        stock.setExchange(updatedStock.getExchange());
+        stock.setLastPrice(updatedStock.getLastPrice());
+        return stockRepository.save(stock);
+    }
+
+    public void deleteStock(Integer id) {
+        stockRepository.deleteById(id);
+    }
+
     @Setter
     @Getter
     static class StockPrice {
         private BigDecimal close;
-
     }
 }

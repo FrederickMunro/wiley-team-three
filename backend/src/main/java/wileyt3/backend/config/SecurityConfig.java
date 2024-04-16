@@ -36,18 +36,39 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register").permitAll()  // Permit all for login and register
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")  // Restrict access to /admin/** to users with the ADMIN role
-                        .anyRequest().authenticated())  // All other requests must be authenticated
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
-
+        configureCsrf(http);
+        configureSession(http);
+        configureAuthorization(http);
+        configureFilters(http);
+        configureExceptionHandling(http);
         return http.build();
+    }
+
+    private void configureCsrf(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
+    }
+
+    private void configureSession(HttpSecurity http) throws Exception {
+        http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    }
+
+    private void configureAuthorization(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/register").permitAll()
+                // Permitting Swagger UI and API docs
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated());
+    }
+
+
+    private void configureFilters(HttpSecurity http) {
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private void configureExceptionHandling(HttpSecurity http) throws Exception {
+        http.exceptionHandling(e -> e
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
     }
 
     @Bean
