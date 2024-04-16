@@ -2,14 +2,18 @@ package wileyt3.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import wileyt3.backend.dto.CredentialsDto;
 import wileyt3.backend.dto.SignUpDto;
 import wileyt3.backend.dto.UserDto;
+import wileyt3.backend.entity.Role;
 import wileyt3.backend.entity.User;
 import wileyt3.backend.exception.AppException;
 import wileyt3.backend.mapper.UserMapper;
+import wileyt3.backend.repository.RoleRepository;
 import wileyt3.backend.repository.UserRepository;
 
 import java.nio.CharBuffer;
@@ -23,9 +27,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final UserMapper userMapper;
 
     /**
@@ -56,12 +59,14 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
         }
+        Role defaultRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new AppException("Unknown role", HttpStatus.NOT_FOUND));
 
         User user = userMapper.signUpToUser(userDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.password())));
+        user.setRole(defaultRole);
 
         User savedUser = userRepository.save(user);
-
         return userMapper.toUserDto(savedUser);
     }
 
@@ -75,6 +80,15 @@ public class UserService {
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return userMapper.toUserDto(user);
+    }
+
+    public User authenticateUser(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
+        }
+        return user;
     }
 
 }

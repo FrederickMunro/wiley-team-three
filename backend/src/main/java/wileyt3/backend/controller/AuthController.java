@@ -14,6 +14,7 @@ import wileyt3.backend.dto.UserDto;
 import wileyt3.backend.service.UserService;
 
 import java.net.URI;
+import java.util.Collections;
 
 /**
  * Controller that handles authentication and user registration.
@@ -33,7 +34,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody @Valid CredentialsDto credentialsDto) {
         UserDto userDto = userService.login(credentialsDto);
-        userDto.setToken(userAuthenticationProvider.createToken(userDto.getUsername()));
+        userDto.setToken(userAuthenticationProvider.createToken(userDto.getUsername(), Collections.singletonList(userDto.getRole().getName())));
         return ResponseEntity.ok(userDto);
     }
 
@@ -45,7 +46,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid SignUpDto signUpDto) {
         UserDto createdUser = userService.register(signUpDto);
-        createdUser.setToken(userAuthenticationProvider.createToken(createdUser.getUsername()));
+        createdUser.setToken(userAuthenticationProvider.createToken(createdUser.getUsername(), Collections.singletonList(createdUser.getRole().getName())));
         return ResponseEntity.created(URI.create("/users/" + createdUser.getId())).body(createdUser);
     }
 }
