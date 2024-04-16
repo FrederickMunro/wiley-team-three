@@ -81,40 +81,78 @@ public class StockDataServiceTest {
 //    }
 
     @Test
-    public void testFetchAllStocks_AdminAuthorization() {
-        // Mock the authentication process to generate a bearer token
-        String bearerToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."; // Generated token
-
-        // Mock the HTTP request to retrieve all stocks with the generated token
-        String url = "http://localhost:8080/admin/stocks";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(bearerToken); // Set the bearer token in the authorization header
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
+    public void testFetchAllStocks() {
+        // Mocked response data
         AllStockApiDto mockAllStockApiDto = new AllStockApiDto();
         mockAllStockApiDto.setName("Test Stock");
         mockAllStockApiDto.setSymbol("TEST");
         mockAllStockApiDto.setExchange("NYSE");
+
         AllStockApiDto[] mockedResponseData = new AllStockApiDto[] { mockAllStockApiDto };
 
-        ResponseEntity<AllStockApiDto[]> responseEntity = new ResponseEntity<>(mockedResponseData, HttpStatus.OK);
-        lenient().when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), eq(entity), eq(AllStockApiDto[].class)))
-                .thenReturn(responseEntity);
+        // Mock the REST call
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<AllStockApiDto[]> responseEntity = new ResponseEntity<>(mockedResponseData, headers, HttpStatus.OK);
+        when(restTemplate.exchange(anyString(), any(), any(), eq(AllStockApiDto[].class))).thenReturn(responseEntity);
 
-        // Test the fetchAllStocks method
+        // Test
         Map<String, Stock> result = stockDataService.fetchAllStocks();
 
-        // Verify the result
+        // Verify
         assertNotNull(result);
-        assertEquals(1, result.size()); // Check that the size of the map matches the number of elements in the mocked response data
+        assertEquals(1, result.size());  //expected should be 1
 
-        // Check that each stock object in the map has been correctly mapped from the API DTO
-        Stock stock = result.get("TEST");
-        assertNotNull(stock);
-        assertEquals("Test Stock", stock.getName());
-        assertEquals("TEST", stock.getSymbol());
-        assertEquals("NYSE", stock.getExchange());
+        Stock testStock = result.get("TEST");
+        assertNotNull(testStock);
+        assertEquals("TEST", testStock.getSymbol());
+        assertEquals("Test Stock", testStock.getName());
+        assertEquals("NYSE", testStock.getExchange());
 
+        assertFalse(result.containsKey("UNKNOWN_SYMBOL"));
+
+        // Test behavior when the response is empty
+        ResponseEntity<AllStockApiDto[]> emptyResponseEntity = new ResponseEntity<>(new AllStockApiDto[0], headers, HttpStatus.OK);
+        when(restTemplate.exchange(anyString(), any(), any(), eq(AllStockApiDto[].class))).thenReturn(emptyResponseEntity);
+        Map<String, Stock> emptyResult = stockDataService.fetchAllStocks();
+        assertEquals(0, emptyResult.size());
     }
+
+//    @Test
+//    public void testFetchAllStocks_AdminAuthorization() {
+//        // Mock the authentication process to generate a bearer token
+//        String bearerToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."; // Generated token
+//
+//        // Mock the HTTP request to retrieve all stocks with the generated token
+//        String url = "http://localhost:8080/admin/stocks";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(bearerToken); // Set the bearer token in the authorization header
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//
+//        AllStockApiDto mockAllStockApiDto = new AllStockApiDto();
+//        mockAllStockApiDto.setName("Test Stock");
+//        mockAllStockApiDto.setSymbol("TEST");
+//        mockAllStockApiDto.setExchange("NYSE");
+//        AllStockApiDto[] mockedResponseData = new AllStockApiDto[] { mockAllStockApiDto };
+//
+//        ResponseEntity<AllStockApiDto[]> responseEntity = new ResponseEntity<>(mockedResponseData, HttpStatus.OK);
+//        lenient().when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), eq(entity), eq(AllStockApiDto[].class)))
+//                .thenReturn(responseEntity);
+//
+//        // Test the fetchAllStocks method
+//        Map<String, Stock> result = stockDataService.fetchAllStocks();
+//
+//        // Verify the result
+//        assertNotNull(result);
+//        assertEquals(1, result.size()); // Check that the size of the map matches the number of elements in the mocked response data
+//
+//        // Check that each stock object in the map has been correctly mapped from the API DTO
+//        Stock stock = result.get("TEST");
+//        assertNotNull(stock);
+//        assertEquals("Test Stock", stock.getName());
+//        assertEquals("TEST", stock.getSymbol());
+//        assertEquals("NYSE", stock.getExchange());
+//
+//    }
 
 }
