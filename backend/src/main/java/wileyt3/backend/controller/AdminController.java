@@ -1,6 +1,8 @@
 package wileyt3.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import wileyt3.backend.entity.Stock;
 import wileyt3.backend.service.StockDataService;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,9 +38,9 @@ public class AdminController {
 
     @GetMapping("/admin/stocks")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Stock>> getAllStocks() {
+    public ResponseEntity<Page<Stock>> getAllStocks(Pageable pageable) {
         try {
-            List<Stock> stocks = stockDataService.findAll();
+            Page<Stock> stocks = stockDataService.findAll(pageable);
             return ResponseEntity.ok(stocks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -80,8 +81,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 
 
 }

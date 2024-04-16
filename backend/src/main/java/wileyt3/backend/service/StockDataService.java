@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +18,6 @@ import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class StockDataService {
@@ -85,8 +86,11 @@ public class StockDataService {
         return stockRepository.findById(id).orElse(null);
     }
 
-    public List<Stock> findAll() {
-        return stockRepository.findAll();
+    // Allows clients to specify the size of the page (size parameter),
+    // the page number (page parameter),
+    // and the sorting criteria (sort parameter)
+    public Page<Stock> findAll(Pageable pageable) {
+        return stockRepository.findAll(pageable);
     }
 
     public Stock updateStock(Integer id) {
