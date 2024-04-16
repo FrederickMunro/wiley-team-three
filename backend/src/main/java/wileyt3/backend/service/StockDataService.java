@@ -16,6 +16,7 @@ import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class StockDataService {
@@ -57,7 +58,7 @@ public class StockDataService {
             HttpHeaders tiingoHeaders = new HttpHeaders();
             tiingoHeaders.set("Authorization", tiingoToken);
             HttpEntity<String> tiingoEntity = new HttpEntity<>(tiingoHeaders);
-            ResponseEntity<StockPrice[]> tiingoResponse = restTemplate.exchange(tiingoUrl,HttpMethod.GET ,tiingoEntity, StockPrice[].class);
+            ResponseEntity<StockPrice[]> tiingoResponse = restTemplate.exchange(tiingoUrl, HttpMethod.GET, tiingoEntity, StockPrice[].class);
 
             if (tiingoResponse.getBody() != null && tiingoResponse.getBody().length > 0) {
                 StockPrice stockPrice = tiingoResponse.getBody()[0];
@@ -80,10 +81,35 @@ public class StockDataService {
         return stockRepository.save(stock);
     }
 
+    public Stock findById(Integer id) {
+        return stockRepository.findById(id).orElse(null);
+    }
+
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
+    }
+
+    public Stock updateStock(Integer id) {
+        Stock stock = findById(id);
+        if (stock == null) {
+            throw new RuntimeException("Stock not found.");
+        }
+        Stock updatedStock = fetchStockData(stock.getSymbol());
+        // Update fields
+        stock.setSymbol(updatedStock.getSymbol());
+        stock.setName(updatedStock.getName());
+        stock.setExchange(updatedStock.getExchange());
+        stock.setLastPrice(updatedStock.getLastPrice());
+        return stockRepository.save(stock);
+    }
+
+    public void deleteStock(Integer id) {
+        stockRepository.deleteById(id);
+    }
+
     @Setter
     @Getter
     static class StockPrice {
         private BigDecimal close;
-
     }
 }
