@@ -3,12 +3,15 @@ package wileyt3.backend.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 /**
  * Configures the web security for the application.
  * It defines how the security is structured, including session management and request authorizations.
@@ -38,11 +41,17 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll())
-                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(userAuthenticationEntryPoint));
+                        .requestMatchers("/login", "/register").permitAll()  // Permit all for login and register
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")  // Restrict access to /admin/** to users with the ADMIN role
+                        .anyRequest().authenticated())  // All other requests must be authenticated
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthenticationFilter() {
+        return new JwtAuthFilter(userAuthProvider);
     }
 }

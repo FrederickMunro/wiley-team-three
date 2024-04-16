@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -36,5 +38,5 @@ public class Stock {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)   // exclude the lastPrice field from serialization when it's null. Can Also use @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Column(name = "last_price", precision = 10)
-    private Double lastPrice;
+    private BigDecimal lastPrice;
 }

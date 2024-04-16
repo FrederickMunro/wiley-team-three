@@ -1,8 +1,8 @@
 package wileyt3.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "role")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role implements GrantedAuthority {
 
     @Id
@@ -23,7 +24,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name;
+        return "ROLE_" + this.name;
     }
-
 }
