@@ -18,6 +18,7 @@ import wileyt3.backend.mapper.StockMapper;
 import wileyt3.backend.repository.StockRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class StockDataService {
@@ -91,6 +92,10 @@ public class StockDataService {
     // and the sorting criteria (sort parameter)
     public Page<Stock> findAll(Pageable pageable) {
         return stockRepository.findAll(pageable);
+    }
+
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
     }
 
     public Stock updateStock(Integer id) {
