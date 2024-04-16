@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import AreaChart from '../charts/AreaChart';
 
 import './Home.css';
+import { useContext, useEffect, useState } from 'react';
+import CookieContext from '../CookieProvider';
 
 const Home = () => {
+
+  const { cookieExists } = useContext(CookieContext);
 
   return (
     <div className='home-container'>
@@ -12,14 +16,18 @@ const Home = () => {
         <div className='home-section'>
           <h1 className='home-section-title'>Invest. Trade. Track. Grow.</h1>
           <p className='home-section-text'>
-            Stock Trader provides a secure environment for acquiring, trading, and monitoring your financial market assets.
+            Stock Trader provides a secure environment for acquiring, trading, and monitoring financial market assets.
             Our platform enables seamless trading of stocks, ETFs, and cryptocurrencies through an intuitive and efficient interface.
           </p>
-          <Link to='/signup'>
-            <button className='home-signup-button'>
-              Sign up
-            </button>
-          </Link>
+          {
+            cookieExists ? null : (
+              <Link to='/signup'>
+                <button className='home-signup-button'>
+                  Sign up
+                </button>
+              </Link>
+            )
+          }
         </div>
       </div>
       <div className='home-section-container grey-background'>
@@ -35,9 +43,9 @@ const Home = () => {
           <div className='snp-number-container'>
             <div>
               <p>Open</p>
-              <p>High</p>
-              <p>Low</p>
               <p>Close</p>
+              <p>52-Week High</p>
+              <p>52-Week Low</p>
               <p>Volume</p>
             </div>
             <div>
