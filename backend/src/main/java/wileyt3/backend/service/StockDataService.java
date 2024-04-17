@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class StockDataService {
+public class StockDataService implements MarketDataService<Stock> {
 
     @Value("${alpaca.api.key}")
     private String apiKey;
@@ -49,8 +49,9 @@ public class StockDataService {
         this.stockRepository = stockRepository;
     }
 
-    public Stock fetchStockData(String symbol) {
-        String alpacaUrl = "https://paper-api.alpaca.markets/v2/assets/" + symbol;
+    @Override
+    public Stock fetchMarketData(String identifier) {
+        String alpacaUrl = "https://paper-api.alpaca.markets/v2/assets/" + identifier;
         HttpHeaders alpacaHeaders = new HttpHeaders();
         alpacaHeaders.set("APCA-API-KEY-ID", apiKey);
         alpacaHeaders.set("APCA-API-SECRET-KEY", apiSecret);
@@ -62,7 +63,7 @@ public class StockDataService {
             System.out.println("DTO fetched from Alpaca: " + stockApiDto);
 
             // Fetching the closing price from Tiingo
-            String tiingoUrl = "https://api.tiingo.com/tiingo/daily/" + symbol + "/prices";
+            String tiingoUrl = "https://api.tiingo.com/tiingo/daily/" + identifier + "/prices";
             HttpHeaders tiingoHeaders = new HttpHeaders();
             tiingoHeaders.set("Authorization", tiingoToken);
             HttpEntity<String> tiingoEntity = new HttpEntity<>(tiingoHeaders);
@@ -85,7 +86,8 @@ public class StockDataService {
         }
     }
 
-    public Map<String, Stock> fetchAllStocks() {
+    @Override
+    public Map<String, Stock> fetchAllMarketData() {
         String url = "https://paper-api.alpaca.markets/v2/assets";
         HttpHeaders headers = new HttpHeaders();
         headers.set("APCA-API-KEY-ID", apiKey);
@@ -105,31 +107,34 @@ public class StockDataService {
         }
     }
 
-    public Stock saveStock(Stock stock) {
-        return stockRepository.save(stock);
+    @Override
+    public Stock saveMarketData(Stock data) {
+        return stockRepository.save(data);
     }
-
+    @Override
     public Stock findById(Integer id) {
         return stockRepository.findById(id).orElse(null);
     }
-
     // Allows clients to specify the size of the page (size parameter),
     // the page number (page parameter),
     // and the sorting criteria (sort parameter)
+    @Override
     public Page<Stock> findAll(Pageable pageable) {
         return stockRepository.findAll(pageable);
     }
 
+    @Override
     public List<Stock> findAll() {
         return stockRepository.findAll();
     }
 
-    public Stock updateStock(Integer id) {
+    @Override
+    public Stock updateMarketData(Integer id) {
         Stock stock = findById(id);
         if (stock == null) {
             throw new RuntimeException("Stock not found.");
         }
-        Stock updatedStock = fetchStockData(stock.getSymbol());
+        Stock updatedStock = fetchMarketData(stock.getSymbol());
         // Update fields
         stock.setSymbol(updatedStock.getSymbol());
         stock.setName(updatedStock.getName());
@@ -138,10 +143,12 @@ public class StockDataService {
         return stockRepository.save(stock);
     }
 
-    public void deleteStock(Integer id) {
+    @Override
+    public void deleteMarketData(Integer id) {
         stockRepository.deleteById(id);
     }
 
+    // TODO: Add update/fetch all if we want to update prices for all stocks.
     @Setter
     @Getter
     static class StockPrice {
