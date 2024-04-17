@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import './Header.css';
+import '../auth/Auth.css';
 
 import HamburgerMenu from './HamburgerMenu';
 import MenuItem from './MenuItem';
@@ -35,7 +37,17 @@ const Menu = () => {
             })
           }
         </nav>
-        <LogoutButton setIsOpen={setIsOpen} />
+        {
+          cookieExists ? (
+            <LogoutButton setIsOpen={setIsOpen} />
+          ) : (
+              <button className='logout-button white-background grey-color'>  
+                <Link className='login-link grey-color' to='/login'>
+                  Login
+                </Link>
+              </button>
+          )
+        }
       </div>
       <HamburgerMenu isopen={isOpen} handlemenuclick={handleMenuClick} />
     </>

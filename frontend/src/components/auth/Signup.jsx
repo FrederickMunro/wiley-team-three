@@ -57,7 +57,7 @@ const Signup = () => {
         email: email.toLowerCase(),
       })
       .then(res => {
-        console.log('Successfully registered:', res);
+        console.log('Successfully registered');
         setNotification('Registration successful.');
         setUsernameBorderColor('');
         const now = new Date();
@@ -93,6 +93,7 @@ const Signup = () => {
           setValue={setUsername}
           type='text'
           borderColor={usernameBorderColor}
+          handleSubmit={handleSubmit}
         />
         {
           usernameDuplicate !== "" &&
@@ -105,6 +106,7 @@ const Signup = () => {
           setValue={setEmail}
           type='email'
           borderColor=''
+          handleSubmit={handleSubmit}
         />
         <SignupInput
           title='Password'
@@ -113,6 +115,7 @@ const Signup = () => {
           setValue={setPassword}
           type='password'
           borderColor={passwordBorderColor}
+          handleSubmit={handleSubmit}
         />
         {
           passwordError !== "" &&

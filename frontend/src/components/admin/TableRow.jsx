@@ -26,11 +26,11 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
         }
       })
       .then(res => {
-        console.log(res);
+        console.log('Successfully removed:', stockToRemove);
         setSupportedStocks(allStocks.filter(s => s.symbol !== stockToRemove.symbol));
       })
       .catch(err => {
-        console.log(err)
+        console.log('Unable to remove stock', err);
       })
     } else {
       axios.post(`${API_URL}/admin/stocks?symbol=${stock.symbol}`, null, {
@@ -39,11 +39,11 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
         }
       })
       .then(res => {
-        console.log(res);
+        console.log('Successfully added:', res.data);
         setSupportedStocks(prev => [...prev, res.data]);
       })
       .catch(err => {
-        console.log(err)
+        console.log('Unable to remove stock', err)
       })
     }
   }

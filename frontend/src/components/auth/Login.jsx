@@ -23,7 +23,7 @@ const Login = () => {
       password: password
     })
     .then(res => {
-      console.log('Login successful:', res.data);
+      console.log('Login successful');
       const now = new Date();
       const expiryDate = new Date(now.getTime() + 60 * 60 * 1000);
       const expiresUTC = expiryDate.toUTCString();
@@ -53,6 +53,7 @@ const Login = () => {
           setValue={setUsername}
           type='text'
           borderColor='grey-border'
+          handleSubmit={handleSubmit}
         />
         
         <SignupInput
@@ -61,6 +62,7 @@ const Login = () => {
           value={password}
           setValue={setPassword}
           type='password'
+          handleSubmit={handleSubmit}
         />
         <button className='signup-submit-button grey-background white-color' onClick={handleSubmit}>Log in</button>
       </div>

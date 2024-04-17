@@ -16,10 +16,10 @@ const Portfolio = () => {
               userId: res.data.userId,
               role: res.data.role
             });
-            console.log(res.data);
+            console.log('Successfully retrieved user information.');
           })
           .catch(err => {
-            console.log('Unable to retrieve account information' , err);
+            console.log('Unable to retrieve user information' , err);
           })
   }, []);
 

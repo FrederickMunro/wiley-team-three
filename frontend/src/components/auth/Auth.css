@@ -95,7 +95,7 @@
 @media only screen and (max-width: 767px) {
   
   .auth-redirect-button {
-    padding: max(min(1.5rem, 3vw), .8rem) 0 max(min(1.5rem, 3vw), .8rem) 0;
+    padding: max(min(1.4rem, 2vw), .6rem) 0 max(min(1.4rem, 2vw), .6rem) 0;
   }
 
   .logout-button {
