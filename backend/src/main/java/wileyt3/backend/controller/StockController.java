@@ -1,5 +1,6 @@
 package wileyt3.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class StockController {
 
     private final StockDataService stockDataService;
 
-
     @GetMapping("/stocks")
+    @Operation(summary = "List all stocks", description = "Retrieves a list of all stocks available in the system.")
     public ResponseEntity<List<Stock>> getAllStocks() {
         try {
             List<Stock> stocks = stockDataService.findAll();
