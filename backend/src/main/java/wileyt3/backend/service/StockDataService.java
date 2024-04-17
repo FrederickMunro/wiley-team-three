@@ -62,13 +62,13 @@ public class StockDataService implements MarketDataService<Stock> {
      */
     @Override
     public Stock fetchMarketData(String symbol) {
-        StockApiDto stockApiDto = fetchStockDataFromAlpaca(symbol);
-        BigDecimal closingPrice = fetchClosingPriceFromTiingo(symbol);
+        StockApiDto stockApiDto = fetchStockDataFromAlpaca(symbol.toUpperCase());
+        BigDecimal closingPrice = fetchClosingPriceFromTiingo(symbol.toUpperCase());
         return mapToStock(stockApiDto, closingPrice);
     }
 
     private StockApiDto fetchStockDataFromAlpaca(String symbol) {
-        String url = "https://paper-api.alpaca.markets/v2/assets/" + symbol;
+        String url = "https://paper-api.alpaca.markets/v2/assets/" + symbol.toUpperCase();
         ResponseEntity<StockApiDto> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
@@ -79,7 +79,7 @@ public class StockDataService implements MarketDataService<Stock> {
     }
 
     private BigDecimal fetchClosingPriceFromTiingo(String symbol) {
-        String url = "https://api.tiingo.com/tiingo/daily/" + symbol + "/prices";
+        String url = "https://api.tiingo.com/tiingo/daily/" + symbol.toUpperCase() + "/prices";
         ResponseEntity<StockPrice[]> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
