@@ -35,17 +35,18 @@ public class StockDataService {
     @Value("${tiingo.api.token}")
     private String tiingoToken;
 
-    @Autowired
     private StockMapper stockMapper;
-    @Autowired
-    private AllStocksMapper allStockMapper;
-    @Autowired
+    private AllStocksMapper allStocksMapper;
     private StockRepository stockRepository;
 
     private final RestTemplate restTemplate;
 
-    public StockDataService(RestTemplate restTemplate) {
+    @Autowired
+    public StockDataService(RestTemplate restTemplate, StockMapper stockMapper, AllStocksMapper allStocksMapper, StockRepository stockRepository) {
         this.restTemplate = restTemplate;
+        this.stockMapper = stockMapper;
+        this.allStocksMapper = allStocksMapper;
+        this.stockRepository = stockRepository;
     }
 
     public Stock fetchStockData(String symbol) {
@@ -95,7 +96,7 @@ public class StockDataService {
         if (allStockApiDtos != null) {
             Map<String, Stock> stocks = new HashMap<>();
             for (AllStockApiDto dto : allStockApiDtos) {
-                Stock stock = allStockMapper.allStocksApiDtoToStock(dto);
+                Stock stock = allStocksMapper.allStocksApiDtoToStock(dto);
                 stocks.put(stock.getSymbol(), stock);
             }
             return stocks;
