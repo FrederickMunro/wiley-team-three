@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import './Header.css';
 
 import HamburgerMenu from './HamburgerMenu';
 import MenuItem from './MenuItem';
 import LogoutButton from '../auth/LogoutButton';
+import CookieContext from '../CookieProvider';
 
 const Menu = () => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const { cookieExists } = useContext(CookieContext);
 
   const handleMenuClick = () => {
     setIsOpen(prev => !prev);
@@ -26,6 +28,9 @@ const Menu = () => {
         <nav className='menu-nav'>
           {
             menuTitles.map((item, index) => {
+              if (!cookieExists && item === 'Portfolio') {
+                return null;
+              }
               return <MenuItem key={index} title={item.toUpperCase()} handlemenuclick={handleMenuClick} />
             })
           }

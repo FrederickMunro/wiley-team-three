@@ -1,0 +1,259 @@
+.admin-container {
+  height: max(calc(100vh - min(max(5rem, 12vw), 7.5rem)),calc(100% - min(max(5rem, 12vw), 7.5rem)));
+  display: flex;
+}
+
+.admin-table-title {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.admin-table-container {
+  margin: 1vw;
+  border-radius: 2rem;
+}
+
+.admin-input {
+  border: none;
+  border-radius: 1rem;
+  margin: 0;
+}
+
+.admin-input:focus {
+  outline: 1px solid var(--second-color);
+}
+
+.admin-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-page-container {
+  display: flex;
+  align-items: center;
+}
+
+.admin-page-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+.admin-page-count {
+  padding: 0;
+  margin: 0;
+}
+
+.stock-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.stock-table > tbody > tr > td {
+  border: 1px solid white;
+}
+
+.stock-table > thead > tr > th {
+  border: 1px solid white;
+}
+
+@media only screen and (max-width: 767px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .admin-table-title {
+    font-size: min(max(2rem, 5vw), 3rem);
+  }
+
+  .admin-table-container {
+    padding: 2vw;
+  }
+
+  .admin-input {
+    padding: 0 1rem 0 1rem;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    height: 3rem;
+  }
+
+  .admin-nav-container {
+    padding-bottom: 2vw;
+  }
+
+  .admin-page-button {
+    padding: 0 1rem 0 1rem;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    height: 3rem;
+  }
+
+  .admin-page-count {
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    margin: 0 1rem 0 1rem;
+  }
+
+  .stock-table > tbody > tr > td {
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    padding: 1vw;
+  }
+
+  .stock-table > thead > tr > th {
+    border: 1px solid white;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    padding: 1vw;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .admin-table-title {
+    font-size: min(max(2rem, 5vw), 3rem);
+  }
+
+  .admin-table-container {
+    padding: 2vw;
+  }
+
+  .admin-input {
+    padding: 0 1rem 0 1rem;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    height: 3rem;
+  }
+
+  .admin-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2vw;
+  }
+
+  .admin-nav-container {
+    padding-bottom: 2vw;
+  }
+
+  .admin-page-button {
+    padding: 0 1rem 0 1rem;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    height: 3rem;
+  }
+
+  .admin-page-count {
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    margin: 0 1rem 0 1rem;
+  }
+
+  .stock-table > tbody > tr > td {
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    padding: 1vw;
+  }
+
+  .stock-table > thead > tr > th {
+    border: 1px solid white;
+    font-size: min(max(1rem, 3vw), 1.8rem);
+    padding: 1vw;
+  }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1499px) {
+
+  .admin-table-title {
+    font-size: 3rem;
+  }
+
+  .admin-table-container {
+    width: 50vw;
+    height: fit-content;
+    padding: 3rem;
+  }
+
+  .admin-input {
+    padding: 0 0 0 1rem;
+    font-size: 2rem;
+    height: 4rem;
+  }
+
+  .admin-nav-container {
+    padding-bottom: 3rem;
+  }
+
+  .admin-page-button {
+    padding: 0 2rem 0 2rem;
+    font-size: 2rem;
+    height: 4rem;
+  }
+
+  .admin-page-count {
+    font-size: 2rem;
+    margin: 0 1rem 0 1rem;
+  }
+
+  .stock-table > thead > tr > th {
+    border: 1px solid white;
+    font-size: 2rem;
+    padding: 1.2rem;
+  }
+  
+  .stock-table > tbody > tr > td {
+    border: 1px solid white;
+    font-size: 1.8rem;
+    padding: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .admin-container {
+    padding: 0 5vw 0 5vw;
+  }
+
+  .admin-table-title {
+    font-size: 3rem;
+  }
+
+  .admin-table-container {
+    width: 50vw;
+    height: fit-content;
+    padding: 3rem;
+  }
+
+  .admin-input {
+    padding: 0 2rem 0 2rem;
+    font-size: 2rem;
+    height: 4rem;
+  }
+
+  .admin-nav-container {
+    padding-bottom: 3rem;
+  }
+
+  .admin-page-button {
+    padding: 0 2rem 0 2rem;
+    font-size: 2rem;
+    height: 4rem;
+  }
+
+  .admin-page-count {
+    font-size: 2rem;
+    margin: 0 2rem 0 2rem;
+  }
+
+  .stock-table > thead > tr > th {
+    border: 1px solid white;
+    font-size: 2rem;
+    padding: 1.2rem;
+  }
+  
+  .stock-table > tbody > tr > td {
+    border: 1px solid white;
+    font-size: 1.8rem;
+    padding: 1.2rem;
+  }
+}
