@@ -6,11 +6,7 @@ import './Portfolio.css';
 const Portfolio = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const [user, setUser] = useState({
-    username: '',
-    userId: -1,
-    role: null
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios.get(API_URL + '/user-info?token=' + document.cookie.split('=')[1])

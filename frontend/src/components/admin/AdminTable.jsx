@@ -33,7 +33,12 @@ const AdminTable = ({ title, allStocks, setAllStocks }) => {
           setcurrentpage={setCurrentPage}
         />
       </div>
-      <Table stocksInPage={stocksInPage} allStock={allStocks} setAllStocks={setAllStocks} />
+      <Table
+        stocksInPage={stocksInPage}
+        title={title}
+        allStocks={allStocks}
+        setAllStocks={setAllStocks}
+      />
     </div>
   );
 }

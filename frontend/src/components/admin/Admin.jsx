@@ -44,8 +44,8 @@ const Admin = () => {
 
   return (
     <div className='admin-container white-background'>
-      <AdminTable title={'Supported Stocks'} allStocks={supportedStocks} setAllStocks={setAllStocks} />
-      <AdminTable title={'All Stocks'} allStocks={allStocks} setAllStocks={setSupportedStocks} />
+      <AdminTable title={'Supported Stocks'} allStocks={supportedStocks} setAllStocks={setSupportedStocks} />
+      <AdminTable title={'All Stocks'} allStocks={allStocks} setAllStocks={setAllStocks} />
     </div>
   );
 }
