@@ -5,7 +5,7 @@ import Plus from '../../assets/plus.svg';
 
 import './Admin.css';
 
-const TableRow = ({ stock, title, allStocks, setAllStocks }) => {
+const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
 
@@ -27,7 +27,7 @@ const TableRow = ({ stock, title, allStocks, setAllStocks }) => {
       })
       .then(res => {
         console.log(res);
-        setAllStocks(allStocks.filter(s => s.symbol !== stockToRemove.symbol));
+        setSupportedStocks(allStocks.filter(s => s.symbol !== stockToRemove.symbol));
       })
       .catch(err => {
         console.log(err)
@@ -40,7 +40,7 @@ const TableRow = ({ stock, title, allStocks, setAllStocks }) => {
       })
       .then(res => {
         console.log(res);
-        setAllStocks(allStocks);
+        setSupportedStocks(prev => [...prev, res.data]);
       })
       .catch(err => {
         console.log(err)

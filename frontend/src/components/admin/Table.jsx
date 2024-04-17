@@ -2,7 +2,7 @@ import { all } from "axios";
 import TableRow from "./TableRow";
 
 
-const Table = ({ stocksInPage, title, allStocks, setAllStocks }) => {
+const Table = ({ stocksInPage, title, allStocks, setSupportedStocks }) => {
   return (
     <table className='stock-table grey-background white-color'>
       <thead>
@@ -21,7 +21,7 @@ const Table = ({ stocksInPage, title, allStocks, setAllStocks }) => {
               stock={stock}
               title={title}
               allStocks={allStocks}
-              setAllStocks={setAllStocks}
+              setSupportedStocks={setSupportedStocks} 
             />
           ))
         }

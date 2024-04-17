@@ -23,7 +23,9 @@ const Admin = () => {
     .catch(err => {
       console.error('Error fetching supported stocks:', err);
     })
+  }, []);
 
+  useEffect(() => {
     axios.get(API_URL + '/admin/allstocks', {
       headers: {
         Authorization: `Bearer ${BEARER_TOKEN}`
@@ -35,17 +37,18 @@ const Admin = () => {
       const filteredData = sortedData.filter(stock => {
         return !supportedStocks.find(supportedStock => supportedStock.symbol === stock.symbol);
       });
-      setAllStocks(filteredData);
+      const againFilteredData = filteredData.filter(stock => /^[a-zA-Z]+$/.test(stock.symbol));
+      setAllStocks(againFilteredData);
     })
     .catch(err => {
       console.error('Error fetching all stocks:', err);
     });
-  }, []);
+  }, [supportedStocks])
 
   return (
     <div className='admin-container white-background'>
-      <AdminTable title={'Supported Stocks'} allStocks={supportedStocks} setAllStocks={setSupportedStocks} />
-      <AdminTable title={'All Stocks'} allStocks={allStocks} setAllStocks={setAllStocks} />
+      <AdminTable title={'Supported Stocks'} allStocks={supportedStocks} setSupportedStocks={setSupportedStocks} />
+      <AdminTable title={'All Stocks'} allStocks={allStocks} setSupportedStocks={setSupportedStocks} />
     </div>
   );
 }
