@@ -1,12 +1,12 @@
 package wileyt3.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import wileyt3.backend.config.UserAuthProvider;
 import wileyt3.backend.dto.CredentialsDto;
 import wileyt3.backend.dto.SignUpDto;
@@ -16,9 +16,6 @@ import wileyt3.backend.service.UserService;
 import java.net.URI;
 import java.util.Collections;
 
-/**
- * Controller that handles authentication and user registration.
- */
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin
@@ -26,27 +23,36 @@ public class AuthController {
 
     private final UserService userService;
     private final UserAuthProvider userAuthenticationProvider;
-    /**
-     * Processes login requests, authenticating users and returning JWT tokens.
-     * @param credentialsDto the credentials of the user attempting to log in
-     * @return ResponseEntity containing the authenticated user's details and JWT token
-     */
+
     @PostMapping("/login")
+    @Operation(summary = "Authenticate a user", description = "Processes login requests by authenticating users and returning JWT tokens.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Authentication successful"),
+            @ApiResponse(responseCode = "400", description = "Invalid login credentials")
+    })
     public ResponseEntity<UserDto> login(@RequestBody @Valid CredentialsDto credentialsDto) {
-        UserDto userDto = userService.login(credentialsDto);
-        userDto.setToken(userAuthenticationProvider.createToken(userDto.getUsername(), Collections.singletonList(userDto.getRole().getName())));
-        return ResponseEntity.ok(userDto);
+        try {
+            UserDto userDto = userService.login(credentialsDto);
+            userDto.setToken(userAuthenticationProvider.createToken(userDto.getUsername(), Collections.singletonList(userDto.getRole().getName())));
+            return ResponseEntity.ok(userDto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    /**
-     * Handles user registration and returns the registered user with a JWT token.
-     * @param signUpDto DTO containing signup details
-     * @return ResponseEntity with the created user details and location header
-     */
     @PostMapping("/register")
+    @Operation(summary = "Register a new user", description = "Handles user registration and returns the registered user with a JWT token.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Error during registration")
+    })
     public ResponseEntity<UserDto> register(@RequestBody @Valid SignUpDto signUpDto) {
-        UserDto createdUser = userService.register(signUpDto);
-        createdUser.setToken(userAuthenticationProvider.createToken(createdUser.getUsername(), Collections.singletonList(createdUser.getRole().getName())));
-        return ResponseEntity.created(URI.create("/users/" + createdUser.getId())).body(createdUser);
+        try {
+            UserDto createdUser = userService.register(signUpDto);
+            createdUser.setToken(userAuthenticationProvider.createToken(createdUser.getUsername(), Collections.singletonList(createdUser.getRole().getName())));
+            return ResponseEntity.created(URI.create("/users/" + createdUser.getId())).body(createdUser);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
