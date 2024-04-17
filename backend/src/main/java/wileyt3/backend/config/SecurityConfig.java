@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/stocks/{id}").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/stocks/get-all-api").hasAuthority("ADMIN")
                 // Stock Operations for TRADER
-                .requestMatchers(HttpMethod.GET, "/stocks/get-all-db").hasAuthority("TRADER")
+                .requestMatchers(HttpMethod.GET, "/trader/**").hasAuthority("TRADER")
                 // Portfolio Operations for TRADER
                 .requestMatchers("/portfolio/**").hasAuthority("TRADER")
                 .anyRequest().authenticated());

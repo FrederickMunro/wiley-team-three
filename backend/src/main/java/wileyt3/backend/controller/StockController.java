@@ -92,8 +92,8 @@ public class StockController {
     }
 
     @GetMapping("/get-all-db")
-    @PreAuthorize("hasRole('TRADER')")
-    @Operation(summary = "List all stocks from database (TRADER)", description = "Fetches all stocks available from the database.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "List all stocks from database (ADMIN)", description = "Fetches all stocks available from the database.")
     public ResponseEntity<List<Stock>> getAllStocksFromDB() {
         try {
             List<Stock> stocks = stockDataService.findAll();
