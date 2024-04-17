@@ -1,3 +1,7 @@
+.home-container {
+  background-color: var(--second-color);
+}
+
 
 @media only screen and (max-width: 767px) {
   .home-container {
@@ -187,5 +191,335 @@
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1200px) and (max-width: 1699px) {
+  .home-container {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+  }
+
+  .home-section-container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+  }
+
+  .home-chart {
+    padding-left: 5rem;
+    padding-right: 5vw;
+  }
+
+  .home-main {
+    padding-left: 5vw;
+    padding-right: 5rem;
+  }
+
+  .home-section-title {
+    padding: 0;
+    margin: 0;
+    color: var(--main-color);
+    font-size: min(max(2.5rem, 6vw), 4rem);
+    font-weight: 400;
+  }
+
+  .home-section-text {
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 400;
+  }
+
+  .home-signup-button {
+    background: none;
+    border: none;
+    width: 100%;
+    border-radius: 5rem;
+    margin: 5vw 0 0 0;
+    padding: 2vw 0 2vw 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    background-color: var(--main-color);
+  }
+
+  .white-background {
+    background: var(--second-color);
+  }
+
+  .grey-background {
+    background: var(--main-color)
+  }
+  
+  .chart {
+    padding: 3vw 3vw 3vw 3vw;
+    border: 1px solid white;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .snp-info-container {
+    color: var(--main-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4vw 2vw 4vw 2vw;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+
+  .snp-stock-container {
+    width: 50%;
+  }
+
+  .snp-number-container {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+
+  .snp-number-container > div > p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .snp-stock-container > h2 {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 3rem);
+  }
+
+  .snp-stock-container > p {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+  .home-container {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+  }
+
+  .home-section-container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+  }
+
+  .home-chart {
+    padding-left: 5rem;
+    padding-right: 10vw;
+  }
+
+  .home-main {
+    padding-left: 10vw;
+    padding-right: 5rem;
+  }
+
+  .home-section-title {
+    padding: 0;
+    margin: 0;
+    color: var(--main-color);
+    font-size: min(max(2.5rem, 6vw), 4rem);
+    font-weight: 400;
+  }
+
+  .home-section-text {
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 400;
+  }
+
+  .home-signup-button {
+    background: none;
+    border: none;
+    width: min(100%, 600px);
+    border-radius: 5rem;
+    margin: 4rem 0 0 0;
+    padding: 2rem 0 2rem 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    background-color: var(--main-color);
+  }
+
+  .white-background {
+    background: var(--second-color);
+  }
+
+  .grey-background {
+    background: var(--main-color)
+  }
+  
+  .chart {
+    padding: 3rem 3rem 3rem 3rem;
+    border: 1px solid white;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .snp-info-container {
+    color: var(--main-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 3rem 3rem 3rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+
+  .snp-stock-container {
+    width: 50%;
+  }
+
+  .snp-number-container {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+
+  .snp-number-container > div > p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .snp-stock-container > h2 {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 3rem);
+  }
+
+  .snp-stock-container > p {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  .home-container {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+  }
+
+  .home-section-container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+  }
+
+  .home-chart {
+    padding-left: 5rem;
+    padding-right: 15vw;
+  }
+
+  .home-main {
+    padding-left: 15vw;
+    padding-right: 5rem;
+  }
+
+  .home-section-title {
+    padding: 0;
+    margin: 0;
+    color: var(--main-color);
+    font-size: min(max(2.5rem, 6vw), 4rem);
+    font-weight: 400;
+  }
+
+  .home-section-text {
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 400;
+  }
+
+  .home-signup-button {
+    background: none;
+    border: none;
+    width: min(100%, 600px);
+    border-radius: 5rem;
+    margin: 4rem 0 0 0;
+    padding: 2rem 0 2rem 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    background-color: var(--main-color);
+  }
+
+  .white-background {
+    background: var(--second-color);
+  }
+
+  .grey-background {
+    background: var(--main-color)
+  }
+  
+  .chart {
+    padding: 3rem 3rem 3rem 3rem;
+    border: 1px solid white;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .snp-info-container {
+    color: var(--main-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 3rem 3rem 3rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+
+  .snp-stock-container {
+    width: 50%;
+  }
+
+  .snp-number-container {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    color: var(--main-color);
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+
+  .snp-number-container > div > p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .snp-stock-container > h2 {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 3rem);
+  }
+
+  .snp-stock-container > p {
+    padding: 0;
+    margin: 0;
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
 }

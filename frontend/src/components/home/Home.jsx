@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <div className='home-container'>
-      <div className='home-section-container white-background'>
+      <div className='home-section-container white-background home-main'>
         <div className='home-section'>
           <h1 className='home-section-title'>Invest. Trade. Track. Grow.</h1>
           <p className='home-section-text'>
@@ -30,7 +30,7 @@ const Home = () => {
           }
         </div>
       </div>
-      <div className='home-section-container grey-background'>
+      <div className='home-section-container grey-background home-chart'>
         <div className='home-section chart'>
           <AreaChart />
         </div>
