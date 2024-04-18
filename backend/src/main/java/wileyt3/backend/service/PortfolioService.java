@@ -1,12 +1,14 @@
 package wileyt3.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wileyt3.backend.dto.PortfolioStockDto;
 import wileyt3.backend.entity.PortfolioStock;
 import wileyt3.backend.entity.Stock;
 import wileyt3.backend.entity.User;
+import wileyt3.backend.exception.AppException;
 import wileyt3.backend.mapper.PortfolioStockMapper;
 import wileyt3.backend.repository.PortfolioStockRepository;
 import wileyt3.backend.repository.StockRepository;
@@ -56,20 +58,15 @@ public class PortfolioService {
 
     @Transactional
     public PortfolioStock updateStockInPortfolio(PortfolioStockDto portfolioStockDto) {
-        User user = userRepository.findById(portfolioStockDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Stock stock = stockRepository.findBySymbol(portfolioStockDto.getSymbol()).orElseThrow(() -> new IllegalArgumentException("Stock not found"));
+        PortfolioStock existing = portfolioStockRepository.findById(portfolioStockDto.getId())
+                .orElseThrow(() -> new AppException("PortfolioStock not found", HttpStatus.NOT_FOUND));
 
-        PortfolioStock portfolioStock = PortfolioStock.builder()
-                .id(portfolioStockDto.getId())
-                .user(user)
-                .stock(stock)
-                .quantityOwned(portfolioStockDto.getQuantity())
-                .purchasePrice(portfolioStockDto.getPurchasePrice())
-                .purchaseDate(new Timestamp(System.currentTimeMillis()))
-                .build();
+        existing.setQuantityOwned(portfolioStockDto.getQuantity());
+        existing.setPurchasePrice(portfolioStockDto.getPurchasePrice());
 
-        return portfolioStockRepository.save(portfolioStock);
+        return portfolioStockRepository.save(existing);
     }
+
 
     @Transactional
     public void deleteAllStocksFromPortfolio(Integer userId) {

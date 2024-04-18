@@ -36,5 +36,4 @@ public class PortfolioStock {
 
     @Column(name = "purchase_date", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private Timestamp purchaseDate;
-
 }
