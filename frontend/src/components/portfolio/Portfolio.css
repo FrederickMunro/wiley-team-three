@@ -1,0 +1,3 @@
+.portfolio-container {
+  height: calc(100vh - min(max(5rem, 12vw), 7.5rem));
+}

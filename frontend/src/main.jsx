@@ -9,7 +9,9 @@ import Header from './components/header/Header.jsx';
 import Home from './components/home/Home.jsx';
 import Signup from './components/auth/Signup.jsx';
 import Login from './components/auth/Login.jsx';
+import Portfolio from './components/portfolio/Portfolio.jsx';
 import { CookieProvider } from './components/CookieProvider.jsx';
+import Admin from './components/admin/Admin.jsx';
 
 
 const router = createBrowserRouter([
@@ -27,7 +29,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Header />
-        <App />
+        <Portfolio />
       </>
     )
   },
@@ -53,6 +55,15 @@ const router = createBrowserRouter([
     element: (
       <>
         <Login />
+      </>
+    )
+  },
+  {
+    path: '/admin',
+    element: (
+      <>
+        <Header />
+        <Admin />
       </>
     )
   }
