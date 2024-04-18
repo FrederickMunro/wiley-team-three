@@ -1,12 +1,14 @@
 package wileyt3.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wileyt3.backend.dto.PortfolioStockDto;
 import wileyt3.backend.entity.PortfolioStock;
 import wileyt3.backend.entity.Stock;
 import wileyt3.backend.entity.User;
+import wileyt3.backend.exception.AppException;
 import wileyt3.backend.mapper.PortfolioStockMapper;
 import wileyt3.backend.repository.PortfolioStockRepository;
 import wileyt3.backend.repository.StockRepository;
@@ -53,14 +55,18 @@ public class PortfolioService {
     public void deleteStockFromPortfolio(Integer portfolioStockId) {
         portfolioStockRepository.deleteById(portfolioStockId);
     }
+
     @Transactional
     public PortfolioStock updateStockInPortfolio(PortfolioStockDto portfolioStockDto) {
-        PortfolioStock existingStock = portfolioStockRepository.findById(portfolioStockDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Stock not found in portfolio"));
-        PortfolioStock updatedStock = portfolioStockMapper.dtoToPortfolioStock(portfolioStockDto);
-        updatedStock.setId(existingStock.getId());
-        return portfolioStockRepository.save(updatedStock);
+        PortfolioStock existing = portfolioStockRepository.findById(portfolioStockDto.getId())
+                .orElseThrow(() -> new AppException("PortfolioStock not found", HttpStatus.NOT_FOUND));
+
+        existing.setQuantityOwned(portfolioStockDto.getQuantity());
+        existing.setPurchasePrice(portfolioStockDto.getPurchasePrice());
+
+        return portfolioStockRepository.save(existing);
     }
+
 
     @Transactional
     public void deleteAllStocksFromPortfolio(Integer userId) {
