@@ -3,6 +3,7 @@ package wileyt3.backend.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,12 +55,19 @@ public class SecurityConfig {
 
     private void configureAuthorization(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/register", "user-info").permitAll()
-                .requestMatchers("stocks").permitAll()
-
-                // Permitting Swagger UI and API docs
+                // Public
+                .requestMatchers("/login", "/register", "user-info", "/crypto/**").permitAll()
+                //Swagger
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                // Stock Operations by ADMIN
+                .requestMatchers(HttpMethod.POST, "/stocks/").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/stocks/{id}").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/stocks/{id}").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/stocks/{id}").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/stocks/get-all-api").hasAuthority("ADMIN")
+                // Stock Operations for TRADER
+                .requestMatchers(HttpMethod.GET, "/trader/**").hasAuthority("TRADER")
+                // Portfolio Operations for TRADER
                 .requestMatchers("/portfolio/**").hasAuthority("TRADER")
                 .anyRequest().authenticated());
     }
