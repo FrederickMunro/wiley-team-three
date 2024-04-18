@@ -36,4 +36,11 @@ public class Crypto {
 
     @Column(name = "last_price")
     private BigDecimal lastPrice;
+
+    public void updateFrom(Crypto other) {
+        this.ticker = other.ticker;
+        this.baseCurrency = other.baseCurrency;
+        this.quoteCurrency = other.quoteCurrency;
+        this.lastPrice = other.lastPrice;
+    }
 }
