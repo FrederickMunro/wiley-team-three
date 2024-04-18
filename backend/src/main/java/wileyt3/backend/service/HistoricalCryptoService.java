@@ -8,8 +8,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import wileyt3.backend.dto.HistoricalCryptoDto;
-import wileyt3.backend.repository.CryptoRepository;
 
 import java.util.List;
 
@@ -22,36 +22,38 @@ public class HistoricalCryptoService {
     private final String tiingoBaseUrl = "https://api.tiingo.com/tiingo/crypto/prices";
     private final RestTemplate restTemplate;
 
-//    private CryptoRepository cryptoRepository;
-
     public HistoricalCryptoService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
 
     public List<HistoricalCryptoDto> fetchHistoricalCryptoData(String tickers, String startDate, String resampleFreq) {
-        // Construct the URL with parameters
-        String url = tiingoBaseUrl + "?tickers=" + tickers + "&startDate=" + startDate + "&resampleFreq=" + resampleFreq;
-
-        // Set up headers with Tiingo token
+        String url = buildUrl(tickers, startDate, resampleFreq);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", tiingoToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        // Make the HTTP request
         ResponseEntity<List<HistoricalCryptoDto>> responseEntity = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
-                new HttpEntity<>(headers),
-                new ParameterizedTypeReference<List<HistoricalCryptoDto>>() {});
+                entity,
+                new ParameterizedTypeReference<List<HistoricalCryptoDto>>() {
+                });
 
-        // Extract and return the response body
-        List<HistoricalCryptoDto> historicalCryptoDtos = responseEntity.getBody();
-
-        if (historicalCryptoDtos != null && !historicalCryptoDtos.isEmpty()) {
-            return historicalCryptoDtos;
+        if (responseEntity.getBody() != null && !responseEntity.getBody().isEmpty()) {
+            return responseEntity.getBody();
         } else {
-            throw new RuntimeException("Failed to fetch historical crypto data from Tiingo.");
+            throw new RuntimeException("No historical data available for the specified parameters.");
         }
+    }
+
+    private String buildUrl(String tickers, String startDate, String resampleFreq) {
+        return UriComponentsBuilder
+                .fromHttpUrl(tiingoBaseUrl)
+                .queryParam("tickers", tickers)
+                .queryParam("startDate", startDate)
+                .queryParam("resampleFreq", resampleFreq)
+                .toUriString();
     }
 
 }
