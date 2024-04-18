@@ -1,4 +1,5 @@
 package wileyt3.backend.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,4 +36,15 @@ public class PortfolioCrypto {
 
     @Column(name = "purchase_date", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private Timestamp purchaseDate;
+
+    /**
+     * Updates the fields of this PortfolioCrypto object based on another PortfolioCrypto object.
+     *
+     * @param other The other PortfolioCrypto object from which to copy the properties.
+     */
+    public void updateFrom(PortfolioCrypto other) {
+        this.quantityOwned = other.quantityOwned;
+        this.purchasePrice = other.purchasePrice;
+        this.purchaseDate = other.purchaseDate;
+    }
 }
