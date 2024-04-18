@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wileyt3.backend.dto.CryptoApiDto;
 
+import wileyt3.backend.dto.CryptoApiWithPriceDto;
 import wileyt3.backend.entity.Crypto;
 import wileyt3.backend.repository.CryptoRepository;
 
@@ -33,32 +34,39 @@ public class CryptoService implements MarketDataService<Crypto> {
 
     @Override
     public Crypto fetchMarketData(String ticker) {
-        CryptoApiDto cryptoApiDto = fetchCryptoDataFromTiingo(ticker.toUpperCase());
-        BigDecimal lastPrice = fetchClosingPriceFromTiingo(ticker.toUpperCase());
+        CryptoApiDto cryptoApiDto = fetchCryptoDataFromTiingo(ticker);
+        BigDecimal lastPrice = fetchClosingPriceFromTiingo(ticker);
         return mapToCrypto(cryptoApiDto, lastPrice);
     }
 
     private CryptoApiDto fetchCryptoDataFromTiingo(String ticker) {
         String url = "https://api.tiingo.com/tiingo/crypto/" + ticker;
-        ResponseEntity<CryptoApiDto> response = restTemplate.exchange(
+
+        ResponseEntity<CryptoApiDto[]> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 new HttpEntity<>(createTiingoHeaders()),
-                CryptoApiDto.class
+                CryptoApiDto[].class
         );
-        return response.getBody();
+        CryptoApiDto[] cryptoApiDtos = response.getBody();
+        if (cryptoApiDtos != null && cryptoApiDtos.length > 0) {
+            return cryptoApiDtos[0];
+        } else {
+            return null;
+        }
+
     }
 
     private BigDecimal fetchClosingPriceFromTiingo(String ticker) {
-        String url = "https://api.tiingo.com/tiingo/daily/crypto/prices?tickers=" + ticker.toUpperCase();
+        String url = "https://api.tiingo.com/tiingo/crypto/prices?tickers=" + ticker.toUpperCase();
 
-        ResponseEntity<CryptoApiDto.PriceDataDto> response = restTemplate.exchange(
+        ResponseEntity<CryptoApiWithPriceDto[]> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 new HttpEntity<>(createTiingoHeaders()),
-                CryptoApiDto.PriceDataDto.class
+                CryptoApiWithPriceDto[].class
         );
-        return response.getBody() != null ? response.getBody().getClose() : null;
+        return response.getBody() != null ? response.getBody()[0].getPriceData().get(0).getClose() : null;
 
     }
 
