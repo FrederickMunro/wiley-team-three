@@ -39,4 +39,16 @@ public class Stock {
     @JsonInclude(JsonInclude.Include.NON_NULL)   // exclude the lastPrice field from serialization when it's null. Can Also use @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Column(name = "last_price", precision = 10)
     private BigDecimal lastPrice;
+
+    /**
+     * Updates the fields of this stock object based on another stock object.
+     *
+     * @param other The other stock object from which to copy the properties.
+     */
+    public void updateFrom(Stock other) {
+        this.symbol = other.symbol;
+        this.name = other.name;
+        this.exchange = other.exchange;
+        this.lastPrice = other.lastPrice;
+    }
 }
