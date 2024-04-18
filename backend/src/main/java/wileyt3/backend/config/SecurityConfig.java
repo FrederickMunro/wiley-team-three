@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/trader/**").hasAuthority("TRADER")
                 // Portfolio Operations for TRADER
                 .requestMatchers("/portfolio/**").hasAuthority("TRADER")
+                .requestMatchers("/analyst/**").hasAuthority("ANALYST")
                 .anyRequest().authenticated());
     }
 
