@@ -39,7 +39,7 @@ public class PortfolioCryptoService {
                 .crypto(crypto)
                 .quantityOwned(portfolioCryptoDto.getQuantity())
                 .purchasePrice(portfolioCryptoDto.getPurchasePrice())
-                .purchaseDate(new Timestamp(System.currentTimeMillis()))
+                .purchaseDate(portfolioCryptoDto.getPurchaseDate())
                 .build();
 
         return portfolioCryptoRepository.save(portfolioCrypto);
@@ -58,9 +58,19 @@ public class PortfolioCryptoService {
     public PortfolioCrypto updateCryptoInPortfolio(PortfolioCryptoDto portfolioCryptoDto) {
         PortfolioCrypto existingCrypto = portfolioCryptoRepository.findById(portfolioCryptoDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Crypto not found in portfolio"));
-        portfolioCryptoMapper.dtoToPortfolioCrypto(portfolioCryptoDto).updateFrom(existingCrypto);
+
+        Crypto crypto = cryptoRepository.findByTicker(portfolioCryptoDto.getTicker())
+                .orElseThrow(() -> new IllegalArgumentException("Crypto ticker not found"));
+
+        existingCrypto.setCrypto(crypto);
+
+        existingCrypto.setQuantityOwned(portfolioCryptoDto.getQuantity());
+        existingCrypto.setPurchasePrice(portfolioCryptoDto.getPurchasePrice());
+        existingCrypto.setPurchaseDate(portfolioCryptoDto.getPurchaseDate());
+
         return portfolioCryptoRepository.save(existingCrypto);
     }
+
 
     @Transactional
     public void deleteAllCryptosFromPortfolio(Integer userId) {
