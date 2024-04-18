@@ -12,6 +12,7 @@ import Login from './components/auth/Login.jsx';
 import Portfolio from './components/portfolio/Portfolio.jsx';
 import { CookieProvider } from './components/CookieProvider.jsx';
 import Admin from './components/admin/Admin.jsx';
+import Market from './components/market/Market';
 
 
 const router = createBrowserRouter([
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Header />
-        <App />
+        <Market />
       </>
     )
   },

@@ -98,7 +98,7 @@ const EditModal = ({ isOpen, handleClose, stock, userId }) => {
           <button className='modal-button grey-background white-color' type="button" onClick={handleSave}>Save</button>
           <button className='modal-button grey-background white-color' type="button" onClick={handleClose}>Cancel</button>
         </div>
-        <button className='modal-button grey-background white-color' type="button" onClick={handleDelete}>Delete</button>
+        <button className='modal-button-delete grey-background white-color' type="button" onClick={handleDelete}>Delete</button>
       </div>
     </div>
   );
