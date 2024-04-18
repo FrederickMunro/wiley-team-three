@@ -59,8 +59,9 @@ public class SecurityConfig {
 
                 // Permitting Swagger UI and API docs
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
-                .requestMatchers("/admin/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/portfolio/**").hasAuthority("TRADER")
+                .requestMatchers("/analyst/**").hasAuthority("ANALYST")
                 .anyRequest().authenticated());
     }
 
