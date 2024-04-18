@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/analyst/crypto")
 @Validated
-public class CryptoController {
+public class HistoricalCryptoController {
 
     private final HistoricalCryptoService historicalCryptoService;
 
-    public CryptoController(HistoricalCryptoService historicalCryptoService) {
+    public HistoricalCryptoController(HistoricalCryptoService historicalCryptoService) {
         this.historicalCryptoService = historicalCryptoService;
     }
 
