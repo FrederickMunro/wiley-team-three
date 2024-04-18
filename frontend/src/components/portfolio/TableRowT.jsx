@@ -1,17 +1,44 @@
-import axios from 'axios';
+
 
 import '../admin/Admin.css';
+import './Portfolio.css';
 
-const TableRowT = ({ stock }) => {
+import Edit from '../../assets/edit.svg';
+import { useState } from 'react';
+import EditModal from './EditModal';
+
+const TableRowT = ({ stock, total, userId }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEdit = () => {
+    setIsModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  }
 
   return (
-    <tr key={stock.symbol}>
-      <td className='admin-td'>{stock.symbol}</td>
-      <td className='admin-td'>{stock.name}</td>
-      <td className='admin-td'>{stock.exchange}</td>
-    </tr>
+    <>
+      <tr key={stock.symbol}>
+        <td className='admin-td'>{stock.symbol}</td>
+        <td className='admin-td'>{stock.name}</td>
+        <td className='admin-td'>{stock.quantity}</td>
+        <td className='admin-td'>{stock.purchaseDate}</td>
+        <td className='admin-td'>{`$${stock.purchasePrice.toFixed(2)}`}</td>
+        <td className='admin-td'>{`$${stock.lastPrice.toFixed(2)}`}</td>
+        <td className='admin-td'>{`$${(stock.lastPrice * stock.quantity).toFixed(2)}`}</td>
+        <td className='admin-td'>{`${((stock.lastPrice * stock.quantity / total) * 100).toFixed(2)}%`}</td>
+        <td className='admin-td'>
+          <button className='portfolio-edit'>
+            <img src={Edit} className='portfolio-edit-img' onClick={() => handleEdit()}/>
+          </button>
+        </td>
+      </tr>
+      <EditModal stock={stock} isOpen={isModalOpen} handleClose={handleCloseModal} userId={userId} />
+    </>
   );
 }
 

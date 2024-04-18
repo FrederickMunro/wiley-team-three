@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './Header.css';
@@ -8,12 +8,16 @@ import HamburgerMenu from './HamburgerMenu';
 import MenuItem from './MenuItem';
 import LogoutButton from '../auth/LogoutButton';
 import CookieContext from '../CookieProvider';
+import axios from 'axios';
 
 const Menu = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [role, setRole] = useState();
   const { cookieExists } = useContext(CookieContext);
+  const BEARER_TOKEN = document.cookie.split('=')[1];
 
   const handleMenuClick = () => {
     setIsOpen(prev => !prev);
@@ -23,11 +27,24 @@ const Menu = () => {
     'Home',
     'Portfolio',
     'Market',
+    'Admin',
   ]
 
   const goToLogin = () => {
     navigate('/login', { replace: true });
   }
+
+  useEffect(() => {
+    if (cookieExists) {
+      axios.get(`${API_URL}/user-info?token=${BEARER_TOKEN}`)
+      .then(res => {
+        setRole(res.data.role);
+      })
+      .catch(err => {
+        console.log('User information retrieval unsuccessful.', err);
+      })
+    }
+  }, [])
 
   return(
     <>
@@ -35,10 +52,13 @@ const Menu = () => {
         <nav className='menu-nav'>
           {
             menuTitles.map((item, index) => {
-              if (!cookieExists && item === 'Portfolio') {
+              if ((!cookieExists || role !== 'TRADER') && item === 'Portfolio') {
                 return null;
+              } else if ((!cookieExists || role !== 'ADMIN') && item === 'Admin') {
+                return null;
+              } else {
+                return <MenuItem key={index} title={item.toUpperCase()} handlemenuclick={handleMenuClick} />
               }
-              return <MenuItem key={index} title={item.toUpperCase()} handlemenuclick={handleMenuClick} />
             })
           }
         </nav>

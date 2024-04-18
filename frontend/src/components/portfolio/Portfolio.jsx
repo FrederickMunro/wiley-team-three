@@ -15,21 +15,11 @@ const Portfolio = () => {
   const [userId, setUserId] = useState();
 
   const [stocks, setStocks] = useState([]);
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
+  const maxStocksInChart = 20;
 
   useEffect(() => {
-    axios.get(API_URL + '/admin/stocks',  {
-      headers: {
-        Authorization: `Bearer ${BEARER_TOKEN}`
-      }
-    })
-    .then(res => {
-      console.log('Get stocks successful');
-      setStocks(res.data.content);
-    })
-    .catch(err => {
-      console.error('Error fetching stocks:', err);
-    })
-
     axios.get(`${API_URL}/user-info?token=${BEARER_TOKEN}`)
     .then(res => {
       console.log('Successfully retrieved user information');
@@ -43,14 +33,47 @@ const Portfolio = () => {
   
 
   useEffect(() => {
-    axios.get(`${API_URL}/portfolio/view/${userId}`)
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(err => {
-
-    })
+    if (userId) {
+      axios.get(`${API_URL}/portfolio/view/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        console.log('Successfully retrieved user stock portfolio.', res.data);
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        const tempStocks = res.data.map(stock => {
+          const date = new Date(stock.purchaseDate);
+          return {
+            symbol: stock.stock.symbol,
+            name: stock.stock.name,
+            exchange: stock.stock.exchange,
+            lastPrice: stock.stock.lastPrice,
+            quantity: stock.quantityOwned,
+            purchasePrice: stock.purchasePrice,
+            purchaseDate: date.toLocaleDateString('en-US', options),
+            portfolioStockId: stock.id
+          }
+        });
+        tempStocks.sort((a, b) => (b.quantity * b.lastPrice) - (a.quantity * a.lastPrice));
+        setStocks(tempStocks);
+      })
+      .catch(err => {
+        console.log('Unable to retrieve user stock portfolio.', err);
+      })
+    }
   }, [userId])
+
+  useEffect(() => {
+    const tempLabels = [];
+    const tempData = [];
+    stocks.forEach(stock => {
+      tempLabels.push(stock.symbol);
+      tempData.push(stock.quantity * stock.lastPrice);
+    })
+    setLabels(tempLabels.slice(0, maxStocksInChart));
+    setData(tempData.slice(0, maxStocksInChart));
+  }, [stocks])
 
   return (
     <div className='portfolio-container white-background grey-color'>
@@ -59,10 +82,11 @@ const Portfolio = () => {
         <div className='portfolio-section-container'>
           <div className='portfolio-section-info'>
             <h2 className='portfolio-section-title'>Stocks</h2>
-            <StockTable allStocks={stocks} setSupportedStocks={setStocks} />
+            <StockTable allStocks={stocks} setSupportedStocks={setStocks} userId={userId} />
           </div>
           <div className='portfolio-section-chart'>
-            <DonutChart />
+            <h2 className='portfolio-section-title'>Top Holdings</h2>
+            <DonutChart labelSet={labels} dataSet={data} />
           </div>
         </div>
       </div>

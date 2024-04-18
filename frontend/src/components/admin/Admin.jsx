@@ -11,14 +11,14 @@ const Admin = () => {
   const [supportedStocks, setSupportedStocks] = useState([]);
 
   useEffect(() => {
-    axios.get(API_URL + '/admin/stocks',  {
+    axios.get(API_URL + '/stocks/get-all-db',  {
       headers: {
         Authorization: `Bearer ${BEARER_TOKEN}`
       }
     })
     .then(res => {
-      console.log('Get supported stocks successful');
-      setSupportedStocks(res.data.content);
+      console.log('Get supported stocks successful', res);
+      setSupportedStocks(res.data);
     })
     .catch(err => {
       console.error('Error fetching supported stocks:', err);
@@ -26,7 +26,7 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(API_URL + '/admin/allstocks', {
+    axios.get(API_URL + '/stocks/get-all-api', {
       headers: {
         Authorization: `Bearer ${BEARER_TOKEN}`
       }
