@@ -11,19 +11,22 @@ import java.util.List;
 @NoArgsConstructor
 public class HistoricalCryptoDto {
 
-    @JsonProperty("ticker")
+    @JsonProperty("ticker") // leave just this one 'ticker' singular
     private String tickers;
 
-    @JsonProperty("exchanges")
+//    @JsonProperty("exchanges")
     private String exchanges;
 
     @JsonProperty("startDate")
     private LocalDateTime startDate;
 
-    @JsonProperty("endDate")
+//    @JsonProperty("endDate")
     private LocalDateTime endDate;
 
     private List<String> attributes;
+
+    @JsonProperty("resampleFreq")
+    private String resampleFreq;
 
     @JsonProperty("class")
     private String classType;

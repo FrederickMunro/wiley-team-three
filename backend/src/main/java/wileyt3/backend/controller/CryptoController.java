@@ -23,11 +23,11 @@ public class CryptoController {
 
     @GetMapping("/historical")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<HistoricalCryptoDto>> getAllHistoricalCryptoData(@RequestParam String tickers, @RequestParam String startDate) {
+    public ResponseEntity<List<HistoricalCryptoDto>> getAllHistoricalCryptoData(@RequestParam String tickers, @RequestParam String startDate, @RequestParam String resampleFreq) {
 
-        String url = "https://api.tiingo.com/tiingo/crypto/prices" + "?tickers=" + tickers + "&startDate=" + startDate;
+        String url = "https://api.tiingo.com/tiingo/crypto/prices" + "?tickers=" + tickers + "&startDate=" + startDate + "&resampleFreq=" + resampleFreq;
 
-        List<HistoricalCryptoDto> historicalCryptoData = historicalCryptoService.fetchHistoricalCryptoData(tickers, startDate);
+        List<HistoricalCryptoDto> historicalCryptoData = historicalCryptoService.fetchHistoricalCryptoData(tickers, startDate, resampleFreq);
         return ResponseEntity.ok(historicalCryptoData);
     }
 }

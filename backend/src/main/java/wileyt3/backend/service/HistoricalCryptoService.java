@@ -28,26 +28,31 @@ public class HistoricalCryptoService {
         this.restTemplate = restTemplate;
     }
 
-    public List<HistoricalCryptoDto> fetchHistoricalCryptoData(String tickers, String startDate) {
-        // Construct the URL with parameters
-//        String url = tiingoBaseUrl + tickers + startDate;
-        String url = tiingoBaseUrl + "?tickers=" + tickers + "&startDate=" + startDate;
 
+    public List<HistoricalCryptoDto> fetchHistoricalCryptoData(String tickers, String startDate, String resampleFreq) {
+        // Construct the URL with parameters
+        String url = tiingoBaseUrl + "?tickers=" + tickers + "&startDate=" + startDate + "&resampleFreq=" + resampleFreq;
 
         // Set up headers with Tiingo token
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", tiingoToken);
 
         // Make the HTTP request
-        ResponseEntity<List<HistoricalCryptoDto>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<HistoricalCryptoDto>>() {});
+        ResponseEntity<List<HistoricalCryptoDto>> responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<List<HistoricalCryptoDto>>() {});
 
         // Extract and return the response body
         List<HistoricalCryptoDto> historicalCryptoDtos = responseEntity.getBody();
+
         if (historicalCryptoDtos != null && !historicalCryptoDtos.isEmpty()) {
             return historicalCryptoDtos;
         } else {
             throw new RuntimeException("Failed to fetch historical crypto data from Tiingo.");
         }
     }
+
 }
 
