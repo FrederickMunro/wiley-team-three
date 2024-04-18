@@ -1,3 +1,36 @@
 .portfolio-container {
-  height: calc(100vh - min(max(5rem, 12vw), 7.5rem));
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding-top: 1vw;
+}
+
+.portfolio-title {
+  margin: 0 0 1vw 12vw;
+  font-size: 6rem;
+  padding: 0;
+}
+
+.portfolio-section {
+  margin: 0 10vw 1vw 10vw;
+  padding: 1vw;
+  border-radius: 5rem;
+}
+
+.portfolio-section-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.portfolio-section-title {
+  padding: 0;
+  margin: 0;
+  font-size: 5rem;
+  margin-left: 1vw;
+}
+
+.portfolio-section-chart {
+  width: 35rem;
+  height: 35rem;
 }

@@ -22,6 +22,7 @@ const Signup = () => {
   const [usernameBorderColor, setUsernameBorderColor] = useState("");
   const [usernameDuplicate, setUsernameDuplicate] = useState("");
   const [notification, setNotification] = useState("");
+  const [selectedRole, setSelectedRole] = useState('Trader');
 
   useEffect(() => {
     if (password !== "") {
@@ -43,6 +44,10 @@ const Signup = () => {
     setUsernameBorderColor("");
     setUsernameDuplicate("");
   }, [username])
+
+  useEffect(() => {
+    console.log(selectedRole)
+  }, [selectedRole])
 
   const handleSubmit = () => {
     const passwordRegex = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~`\-|\\])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
@@ -117,6 +122,11 @@ const Signup = () => {
           borderColor={passwordBorderColor}
           handleSubmit={handleSubmit}
         />
+        <h3 className='signup-input-title-select'>Role</h3>
+        <select className='auth-select white-background grey-color' value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
+          <option value="Trader">Trader</option>
+          <option value="Analyst">Analyst</option>
+        </select>
         {
           passwordError !== "" &&
           <p className="signup-input-error-message">{passwordError}</p>

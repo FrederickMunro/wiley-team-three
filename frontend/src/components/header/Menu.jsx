@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './Header.css';
 import '../auth/Auth.css';
@@ -10,6 +10,7 @@ import LogoutButton from '../auth/LogoutButton';
 import CookieContext from '../CookieProvider';
 
 const Menu = () => {
+  const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
   const { cookieExists } = useContext(CookieContext);
@@ -23,6 +24,10 @@ const Menu = () => {
     'Portfolio',
     'Market',
   ]
+
+  const goToLogin = () => {
+    navigate('/login', { replace: true });
+  }
 
   return(
     <>
@@ -41,11 +46,9 @@ const Menu = () => {
           cookieExists ? (
             <LogoutButton setIsOpen={setIsOpen} />
           ) : (
-              <button className='logout-button white-background grey-color'>  
-                <Link className='login-link grey-color' to='/login'>
-                  Login
-                </Link>
-              </button>
+            <button className='logout-button white-background grey-color' onClick={() => goToLogin()}>
+              Login
+            </button>
           )
         }
       </div>

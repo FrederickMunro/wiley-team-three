@@ -1,7 +1,7 @@
-import TableRow from "./TableRow";
+import TableRowT from './TableRowT';
 
 
-const Table = ({ stocksInPage, title, allStocks, setSupportedStocks }) => {
+const StockT = ({ stocksInPage }) => {
   return (
     <table className='stock-table grey-background white-color'>
       <thead>
@@ -9,18 +9,14 @@ const Table = ({ stocksInPage, title, allStocks, setSupportedStocks }) => {
           <th className='admin-td-header'>Ticker</th>
           <th className='admin-td-header'>Name</th>
           <th className='admin-td-header'>Exchange</th>
-          <th className='admin-add-remove-container'></th>
         </tr>
       </thead>
       <tbody>
         {
           stocksInPage.map((stock, i) => (
-            <TableRow
+            <TableRowT
               key={i}
               stock={stock}
-              title={title}
-              allStocks={allStocks}
-              setSupportedStocks={setSupportedStocks} 
             />
           ))
         }
@@ -29,4 +25,4 @@ const Table = ({ stocksInPage, title, allStocks, setSupportedStocks }) => {
   );
 }
 
-export default Table;
+export default StockT;
