@@ -42,6 +42,16 @@ const Portfolio = () => {
   }, []);
   
 
+  useEffect(() => {
+    axios.get(`${API_URL}/portfolio/view/${userId}`)
+    .then(res => {
+      console.log(res.data)
+    })
+    .catch(err => {
+
+    })
+  }, [userId])
+
   return (
     <div className='portfolio-container white-background grey-color'>
       <h1 className='portfolio-title'>Your Portfolio</h1>

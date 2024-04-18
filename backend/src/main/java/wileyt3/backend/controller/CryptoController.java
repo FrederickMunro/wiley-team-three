@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/crypto")
+@CrossOrigin
 public class CryptoController {
 
     private final CryptoService cryptoService;
