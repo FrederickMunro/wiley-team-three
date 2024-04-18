@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class PortfolioStockDto {
+    private Integer id;
     private Integer userId;
     private String symbol;
     private Integer quantity;
