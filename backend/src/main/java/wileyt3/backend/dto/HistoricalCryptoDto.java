@@ -4,30 +4,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class HistoricalCryptoDto {
 
-    @JsonProperty("ticker") // leave just this one 'ticker' singular
-    private String tickers;
+    @JsonProperty("ticker")
+    private String ticker;
 
-//    @JsonProperty("exchanges")
-    private String exchanges;
+    @JsonProperty("baseCurrency")
+    private String baseCurrency;
 
-    @JsonProperty("startDate")
-    private LocalDateTime startDate;
+    @JsonProperty("quoteCurrency")
+    private String quoteCurrency;
 
-//    @JsonProperty("endDate")
-    private LocalDateTime endDate;
+    @JsonProperty("priceData")
+    private List<PriceData> priceData;
 
-    private List<String> attributes;
-
-    @JsonProperty("resampleFreq")
-    private String resampleFreq;
-
-    @JsonProperty("class")
-    private String classType;
+    @Data
+    @NoArgsConstructor
+    public static class PriceData {
+        @JsonProperty("date")
+        private OffsetDateTime date;
+        @JsonProperty("close")
+        private Double close;
+    }
 }
