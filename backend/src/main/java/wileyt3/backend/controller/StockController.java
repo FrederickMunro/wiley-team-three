@@ -24,7 +24,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/stocks")
 @RequiredArgsConstructor
-@AllArgsConstructor
 @CrossOrigin
 public class StockController {
     private final StockDataService stockDataService;

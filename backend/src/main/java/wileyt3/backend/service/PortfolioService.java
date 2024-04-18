@@ -53,13 +53,22 @@ public class PortfolioService {
     public void deleteStockFromPortfolio(Integer portfolioStockId) {
         portfolioStockRepository.deleteById(portfolioStockId);
     }
+
     @Transactional
     public PortfolioStock updateStockInPortfolio(PortfolioStockDto portfolioStockDto) {
-        PortfolioStock existingStock = portfolioStockRepository.findById(portfolioStockDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Stock not found in portfolio"));
-        PortfolioStock updatedStock = portfolioStockMapper.dtoToPortfolioStock(portfolioStockDto);
-        updatedStock.setId(existingStock.getId());
-        return portfolioStockRepository.save(updatedStock);
+        User user = userRepository.findById(portfolioStockDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Stock stock = stockRepository.findBySymbol(portfolioStockDto.getSymbol()).orElseThrow(() -> new IllegalArgumentException("Stock not found"));
+
+        PortfolioStock portfolioStock = PortfolioStock.builder()
+                .id(portfolioStockDto.getId())
+                .user(user)
+                .stock(stock)
+                .quantityOwned(portfolioStockDto.getQuantity())
+                .purchasePrice(portfolioStockDto.getPurchasePrice())
+                .purchaseDate(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        return portfolioStockRepository.save(portfolioStock);
     }
 
     @Transactional
