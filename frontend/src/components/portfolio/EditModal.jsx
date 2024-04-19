@@ -70,7 +70,7 @@ const EditModal = ({ isOpen, handleClose, stock, userId, handleEditStock, handle
       axios.put(`${API_URL}/portfolio/crypto/update`, {
         id: editedStock.portfolioStockId,
         userId: userId,
-        ticker: editedStock.symbol,
+        ticker: editedStock.ticker,
         quantity: editedStock.quantity,
         purchasePrice: editedStock.purchasePrice,
         purchaseDate: new Date(editedStock.purchaseDate).toISOString(),

@@ -35,11 +35,7 @@ const Portfolio = () => {
 
   const handleRemoveStock = (removeStock) => {
     const stocksEdited = [...stocks];
-    stocksEdited.forEach(stock => {
-      if (stock.portfolioStockId === removeStock.portfolioStockId) {
-        return;
-      }
-    })
+    stocksEdited.filter(stock => stock.portfolioStockId !== removeStock.portfolioStockId);
     setEditStocks(stocksEdited);
   }
   
@@ -55,11 +51,7 @@ const Portfolio = () => {
 
   const handleRemoveCrypto = (removeCrypto) => {
     const cryptosEdited = [...cryptos];
-    cryptosEdited.forEach(crypto => {
-      if (crypto.portfolioStockoId === removeCrypto.portfolioStockId) {
-        return;
-      }
-    })
+    cryptosEdited.forEach(crypto => crypto.portfolioStockoId !== removeCrypto.portfolioStockId)
     setEditCryptos(cryptosEdited);
   }
 
@@ -140,6 +132,7 @@ const Portfolio = () => {
           return {
             symbol: crypto.crypto.ticker.slice(0,-3).toUpperCase(),
             currency: crypto.crypto.ticker.slice(-3).toUpperCase(),
+            ticker: crypto.crypto.ticker,
             lastPrice: crypto.crypto.lastPrice,
             quantity: crypto.quantityOwned,
             purchasePrice: crypto.purchasePrice,
