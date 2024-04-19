@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/portfolio/crypto")
 @Validated
+@CrossOrigin
 public class PortfolioCryptoController {
 
     @Autowired

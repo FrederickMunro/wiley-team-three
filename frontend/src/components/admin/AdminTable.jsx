@@ -4,7 +4,7 @@ import Table from './Table';
 import TableNav from './TableNav';
 import TableSearch from './TableSearch';
 
-const AdminTable = ({ title, allStocks, setSupportedStocks }) => {
+const AdminTable = ({ title, allStocks, setSupportedStocks, type }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedStocks, setDisplayedStocks] = useState([]);
@@ -26,6 +26,7 @@ const AdminTable = ({ title, allStocks, setSupportedStocks }) => {
           setDisplayedStocks={setDisplayedStocks}
           allStocks={allStocks}
           setCurrentPage={setCurrentPage}
+          type={type}
         />
         <TableNav
           totalpages={totalPages}
@@ -37,7 +38,8 @@ const AdminTable = ({ title, allStocks, setSupportedStocks }) => {
         stocksInPage={stocksInPage}
         title={title}
         allStocks={allStocks}
-        setSupportedStocks={setSupportedStocks} 
+        setSupportedStocks={setSupportedStocks}
+        type={type}
       />
     </div>
   );

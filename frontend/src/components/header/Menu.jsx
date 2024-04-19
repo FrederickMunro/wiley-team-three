@@ -28,6 +28,7 @@ const Menu = () => {
     'Portfolio',
     'Market',
     'Admin',
+    'Crypto'
   ]
 
   const goToLogin = () => {
@@ -56,7 +57,9 @@ const Menu = () => {
                 return null;
               } else if ((!cookieExists || role !== 'ADMIN') && item === 'Admin') {
                 return null;
-              } else if ((!cookieExists || (role !== 'ANALYST' && role !== 'TRADER')) && item === 'Market') {
+              } else if ((!cookieExists || (role !== 'TRADER')) && item === 'Market') {
+                return null;
+              } else if ((!cookieExists || (role !== 'ANALYST')) && item === 'Crypto') {
                 return null;
               } else {
                 return <MenuItem key={index} title={item.toUpperCase()} handlemenuclick={handleMenuClick} />

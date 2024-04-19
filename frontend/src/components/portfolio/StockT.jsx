@@ -1,13 +1,19 @@
 import TableRowT from './TableRowT';
 
 
-const StockT = ({ stocksInPage, total, userId, handleEditStock }) => {
+const StockT = ({ stocksInPage, total, userId, handleEditStock, handleRemoveStock }) => {
   return (
     <table className='stock-table grey-background white-color'>
       <thead>
         <tr>
           <th className='admin-td-header'>Ticker</th>
-          <th className='admin-td-header'>Name</th>
+          {
+            stocksInPage && stocksInPage.length > 0 && stocksInPage[0].exchange ? (
+              <th className='admin-td-header'>Name</th>
+            ) : (
+              <th className='admin-td-header'>Currency</th>
+            )
+          }
           <th className='admin-td-header'>Shares</th>
           <th className='admin-td-header no-small'>Purchase date</th>
           <th className='admin-td-header no-small'>Purchase price</th>
@@ -26,6 +32,7 @@ const StockT = ({ stocksInPage, total, userId, handleEditStock }) => {
               total={total}
               userId={userId}
               handleEditStock={handleEditStock}
+              handleRemoveStock={handleRemoveStock}
             />
           ))
         }

@@ -13,6 +13,7 @@ import Portfolio from './components/portfolio/Portfolio.jsx';
 import { CookieProvider } from './components/CookieProvider.jsx';
 import Admin from './components/admin/Admin.jsx';
 import Market from './components/market/Market';
+import Crypto from './components/crypto/Crypto';
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,15 @@ const router = createBrowserRouter([
       <>
         <Header />
         <Market />
+      </>
+    )
+  },
+  {
+    path: '/crypto',
+    element: (
+      <>
+        <Header />
+        <Crypto />
       </>
     )
   },

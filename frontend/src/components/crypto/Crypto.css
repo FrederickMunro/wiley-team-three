@@ -1,0 +1,63 @@
+.crypto-container {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - min(max(5rem, 12vw), 7.5rem) - 1vw);
+  flex-wrap: wrap;
+}
+
+.crypto-chart-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 2rem;
+  height: 30rem;
+}
+  
+.crypto-chart {
+  width: 40rem;
+  padding: 1rem 3rem 1rem 1rem;
+  border: 1px solid white;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.crypto-info-container {
+  color: var(--main-color);
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 2rem;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.crypto-stock-container {
+}
+
+.crypto-number-container {
+  color: var(--main-color);
+  font-size: min(max(1.5rem, 3vw), 2rem);
+  display: flex;
+  justify-content: space-between;
+}
+
+.crypto-number-container > div > p {
+  padding: 0;
+  margin: 0;
+}
+
+.crypto-stock-container > h2 {
+  padding: 0;
+  margin: 0;
+  font-size: min(max(1.5rem, 3vw), 3rem);
+}
+
+.snp-stock-container > p {
+  padding: 0;
+  margin: 0;
+  font-size: min(max(1.5rem, 3vw), 2rem);
+}

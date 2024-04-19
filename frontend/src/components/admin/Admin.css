@@ -1,6 +1,12 @@
 .admin-container {
-  height: max(calc(100vh - min(max(5rem, 12vw), 7.5rem)),calc(100% - min(max(5rem, 12vw), 7.5rem)));
+  min-height: calc(100vh - min(max(5rem, 12vw), 7.5rem));
   display: flex;
+}
+
+.input-cont {
+  display:flex;
+  flex-direction: column;
+  margin: 1rem;
 }
 
 .admin-table-title {
@@ -13,6 +19,12 @@
 
 .admin-table-container {
   margin: 1vw;
+  border-radius: 2rem;
+}
+
+.crypto-add-container {
+  margin: 1vw;
+  padding: 2rem;
   border-radius: 2rem;
 }
 
@@ -80,6 +92,12 @@
   width: 100%;
 }
 
+.admin-dropdown {
+  border: 3px solid var(--main-color);
+  border-radius: 2rem;
+  font-weight: 600;
+}
+
 @media only screen and (max-width: 767px) {
   .admin-container {
     flex-direction: column;
@@ -91,6 +109,12 @@
 
   .admin-table-container {
     padding: 2vw;
+  }
+
+  .crypto-add-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .admin-input {
@@ -119,6 +143,10 @@
     padding: 1vw;
   }
 
+  .admin-crypto-add-label {
+    font-size: min(max(1.5rem, 3vw), 2rem);
+  }
+
   .admin-td-header {
     border: 1px solid white;
     font-size: min(max(1rem, 3vw), 1.8rem);
@@ -133,6 +161,14 @@
   .admin-add-remove {
     width: min(6vw, 3.5rem);
     height: min(6vw, 3.5rem);
+  }
+
+  .adropdown {
+    padding: 1rem 0 0 1rem;
+  }
+  .admin-dropdown {
+    padding: 1vw 3vw 1vw 4vw;
+    font-size: max(1rem, 2vw);
   }
 }
 
@@ -197,6 +233,14 @@
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
   }
+
+  .adropdown {
+    padding: 1rem 0 0 1rem;
+  }
+  .admin-dropdown {
+    padding: .9vw 3vw .9vw 4vw;
+    font-size: max(1rem, 1.8vw);
+  }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1499px) {
@@ -252,6 +296,14 @@
   .admin-add-remove {
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
+  }
+
+  .adropdown {
+    padding: 2rem 0 0 2rem;
+  }
+  .admin-dropdown {
+    padding: .8vw 2.5vw .8vw 3.2vw;
+    font-size: max(1rem, 1.8vw);
   }
 }
 
@@ -311,5 +363,13 @@
   .admin-add-remove {
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
+  }
+
+  .adropdown {
+    padding: 2rem 0 0 6vw;
+  }
+  .admin-dropdown {
+    padding: 1rem 4rem 1rem 4rem;
+    font-size: min(3rem, 1.8vw);
   }
 }

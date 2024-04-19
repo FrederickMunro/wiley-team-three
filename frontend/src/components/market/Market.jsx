@@ -3,12 +3,14 @@ import axios from 'axios';
 
 import './Market.css';
 import StockContainer from './StockContainer';
+import CryptoContainer from './CryptoContainer';
 
 const Market = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
 
-  const [stocks, setStocks] = useState(null);
+  const [selectedOption, setSelectedOption] = useState('stocks'); // Default to stocks
+  const [data, setData] = useState(null);
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -29,30 +31,47 @@ const Market = () => {
   useEffect(() => {
     if (user) {
       if (user.role === 'TRADER') {
-        axios.get(`${API_URL}/trader/stocks/get-all-db`, {
+        let endpoint = selectedOption === 'stocks' ? 'trader/stocks/get-all-db' : 'crypto/all';
+        axios.get(`${API_URL}/${endpoint}`, {
           headers: {
             Authorization: `Bearer ${BEARER_TOKEN}`
           }
         })
         .then(res => {
-          setStocks(res.data);
-          console.log('Successfully retrieved supported stocks.', res.data);
+          setData(res.data);
+          console.log(`Successfully retrieved supported ${selectedOption}.`, res.data);
         })
         .catch(err => {
-          console.log('Unable to retrieve supported stocks.', err);
+          console.log(`Unable to retrieve supported ${selectedOption}.`, err);
         })
       } else if (user.role === 'ANALYST') {
-
+        // Implement for analyst role if needed
       }
     }
-  }, [user])
+  }, [user, selectedOption])
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  };
 
   return (
-    <div className='market-container white-background grey-color'>
+    <div className='market-container white-background'>
+      <div className='dropdown'>
+        <select className='market-dropdown white-background grey-color' value={selectedOption} onChange={(e) => handleOptionChange(e.target.value)}>
+          <option value='stocks'>Stocks</option>
+          <option value='crypto'>Crypto</option>
+        </select>
+      </div>
       {
-        stocks && stocks.map(stock => {
-          return <StockContainer key={stock.id} stock={stock} userId={user.userId} />
-        })
+        selectedOption.toLowerCase() === 'stocks' ? (
+          data && data.map(item => {
+            return <StockContainer key={item.id} stock={item} userId={user.userId} />
+          })
+        ) : (
+          data && data.map(item => {
+            return <CryptoContainer key={item.id} crypto={item} userId={user.userId} />
+          })
+        )
       }
     </div>
   );

@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-const EditModal = ({ isOpen, handleClose, stock, userId, handleEditStock }) => {
+const EditModal = ({ isOpen, handleClose, stock, userId, handleEditStock, handleRemoveStock }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
   const [editedStock, setEditedStock] = useState(stock); // Initialize edited stock state with current stock
   const modalRef = useRef(null); // Reference to modal content element
+
+  useEffect(() => {
+    setEditedStock(stock);
+  }, [stock])
 
   // Close modal when clicking outside
   useEffect(() => {
@@ -32,59 +36,129 @@ const EditModal = ({ isOpen, handleClose, stock, userId, handleEditStock }) => {
 
   // Save edited stock
   const handleSave = () => {
-    axios.put(`${API_URL}/portfolio/update`, {
-      id: editedStock.portfolioStockId,
-      userId: userId,
-      symbol: editedStock.symbol,
-      quantity: editedStock.quantity,
-      purchasePrice: editedStock.purchasePrice
-    }, {
-      headers: {
-        Authorization: `Bearer ${BEARER_TOKEN}`
-      }
-    })
-    .then(res => {
-      handleClose();
-      const newStock = {
-        symbol: stock.symbol,
-        name: stock.name,
-        exchange: stock.exchange,
-        lastPrice: stock.lastPrice,
-        quantity: res.data.quantityOwned,
-        purchasePrice: res.data.purchasePrice,
-        purchaseDate: stock.purchaseDate,
-        portfolioStockId: stock.id
-      }
-      handleEditStock(newStock);
-      console.log('Successfully edited stock holdings.', res);
-    })
-    .catch(err => {
-      console.error('Error updating stock:', err);
-    });
+    if (stock.exchange) {
+      axios.put(`${API_URL}/portfolio/update`, {
+        id: editedStock.portfolioStockId,
+        userId: userId,
+        symbol: editedStock.symbol,
+        quantity: editedStock.quantity,
+        purchasePrice: editedStock.purchasePrice
+      }, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        handleClose();
+        const newStock = {
+          symbol: stock.symbol,
+          name: stock.name,
+          exchange: stock.exchange,
+          lastPrice: stock.lastPrice,
+          quantity: res.data.quantityOwned,
+          purchasePrice: res.data.purchasePrice,
+          purchaseDate: stock.purchaseDate,
+          portfolioStockId: stock.id
+        }
+        handleEditStock(newStock);
+        console.log('Successfully edited stock holding.', res);
+      })
+      .catch(err => {
+        console.error('Error updating stock holding.', err);
+      });
+    } else {
+      axios.put(`${API_URL}/portfolio/crypto/update`, {
+        id: editedStock.portfolioStockId,
+        userId: userId,
+        ticker: editedStock.symbol,
+        quantity: editedStock.quantity,
+        purchasePrice: editedStock.purchasePrice,
+        purchaseDate: new Date(editedStock.purchaseDate).toISOString(),
+      }, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        handleClose();
+        const newStock = {
+          symbol: stock.symbol,
+          lastPrice: stock.lastPrice,
+          quantity: res.data.quantityOwned,
+          purchasePrice: res.data.purchasePrice,
+          purchaseDate: stock.purchaseDate,
+          portfolioStockId: stock.id
+        }
+        handleEditStock(newStock);
+        console.log('Successfully edited crypto holding.');
+      })
+      .catch(err => {
+        console.error('Error updating crypto holding.', err);
+      });
+    }
   };
 
   const handleDelete = () => {
-    axios.delete(`${API_URL}/portfolio/delete/${stock.portfolioStockId}`, {
-      headers: {
-        Authorization: `Bearer ${BEARER_TOKEN}`
-      }
-    })
-    .then(res => {
-      console.log('Successfully deleted stock.');
-    })
-    .catch(err => {
-      console.log('Unable to delete entry.', err);
-    })
+    if (stock.exchange) {
+      axios.delete(`${API_URL}/portfolio/delete/${stock.portfolioStockId}`, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        console.log('Successfully deleted stock.');
+        const newStock = {
+          symbol: stock.symbol,
+          lastPrice: stock.lastPrice,
+          quantity: stock.quantityOwned,
+          purchasePrice: stock.purchasePrice,
+          purchaseDate: stock.purchaseDate,
+          portfolioStockId: stock.id
+        }
+        handleRemoveStock(newStock);
+      })
+      .catch(err => {
+        console.log('Unable to delete stock.', err);
+      })
+    } else {
+      axios.delete(`${API_URL}/portfolio/crypto/delete/${stock.portfolioStockId}`, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        console.log('Successfully deleted crypto.');
+        handleClose();
+        const newStock = {
+          symbol: stock.symbol,
+          lastPrice: stock.lastPrice,
+          quantity: stock.quantityOwned,
+          purchasePrice: stock.purchasePrice,
+          purchaseDate: stock.purchaseDate,
+          portfolioStockId: stock.id
+        }
+        handleRemoveStock(newStock);
+      })
+      .catch(err => {
+        console.log('Unable to delete crypto.', err);
+      })
+    }
   }
 
   return (
     isOpen &&
     <div className="modal-overlay">
       <div ref={modalRef} className="modal-content grey-color">
-        <span className="close" onClick={handleClose}>&times;</span>
+        <span className="close" onClick={handleClose}></span>
         <h2>Edit Stock</h2>
         <h3>{stock.symbol}</h3>
-        <p>{stock.name}</p>
+        {
+          stock.exchange ? (
+            <p>{stock.name}</p>
+          ) : (
+            <p>{stock.currency}</p>
+          )
+        }
         <div className='input-div'>
           <label htmlFor="quantity">Quantity:</label>
           <input

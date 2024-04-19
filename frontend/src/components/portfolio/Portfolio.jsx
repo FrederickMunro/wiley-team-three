@@ -17,6 +17,10 @@ const Portfolio = () => {
   const [stocks, setStocks] = useState([]);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
+  const [cryptos, setCryptos] = useState([]);
+  const [clabels, setCLabels] = useState([]);
+  const [editCryptos, setEditCryptos] = useState([]);
+  const [cdata, setCData] = useState([]);
   const maxStocksInChart = 20;
 
   const handleEditStock = (newStock) => {
@@ -27,6 +31,36 @@ const Portfolio = () => {
       }
     })
     setEditStocks(stocksEdited);
+  }
+
+  const handleRemoveStock = (removeStock) => {
+    const stocksEdited = [...stocks];
+    stocksEdited.forEach(stock => {
+      if (stock.portfolioStockId === removeStock.portfolioStockId) {
+        return;
+      }
+    })
+    setEditStocks(stocksEdited);
+  }
+  
+  const handleEditCrypto = (newCrypto) => {
+    const cryptosEdited = [...cryptos];
+    cryptosEdited.forEach(crypto => {
+      if (crypto.portfolioStockId === newCrypto.portfolioStockId) {
+        return newCrypto;
+      }
+    })
+    setEditCryptos(cryptosEdited);
+  }
+
+  const handleRemoveCrypto = (removeCrypto) => {
+    const cryptosEdited = [...cryptos];
+    cryptosEdited.forEach(crypto => {
+      if (crypto.portfolioStockoId === removeCrypto.portfolioStockId) {
+        return;
+      }
+    })
+    setEditCryptos(cryptosEdited);
   }
 
   useEffect(() => {
@@ -48,8 +82,16 @@ const Portfolio = () => {
     })
     setLabels(tempLabels.slice(0, maxStocksInChart));
     setData(tempData.slice(0, maxStocksInChart));
-  }, [stocks]);
-  
+    
+    const tempCLabels = [];
+    const tempCData = [];
+    cryptos.forEach(crypto => {
+      tempCLabels.push(crypto.symbol);
+      tempCData.push(crypto.quantity * crypto.lastPrice);
+    })
+    setCLabels(tempCLabels.slice(0, maxStocksInChart));
+    setCData(tempCData.slice(0, maxStocksInChart));
+  }, [stocks, cryptos]);
 
   useEffect(() => {
     if (userId) {
@@ -83,6 +125,37 @@ const Portfolio = () => {
     }
   }, [userId, editStocks])
 
+  useEffect(() => {
+    if (userId) {
+      axios.get(`${API_URL}/portfolio/crypto/view/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${BEARER_TOKEN}`
+        }
+      })
+      .then(res => {
+        console.log('Successfully retrieved user crypto portfolio.');
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        const tempCryptos = res.data.map(crypto => {
+          const date = new Date(crypto.purchaseDate);
+          return {
+            symbol: crypto.crypto.ticker.slice(0,-3).toUpperCase(),
+            currency: crypto.crypto.ticker.slice(-3).toUpperCase(),
+            lastPrice: crypto.crypto.lastPrice,
+            quantity: crypto.quantityOwned,
+            purchasePrice: crypto.purchasePrice,
+            purchaseDate: date.toLocaleDateString('en-US', options),
+            portfolioStockId: crypto.id
+          }
+        });
+        tempCryptos.sort((a, b) => (b.quantity * b.lastPrice) - (a.quantity * a.lastPrice));
+        setCryptos(tempCryptos);
+      })
+      .catch(err => {
+        console.log('Unable to retrieve user crypto portfolio.', err);
+      })
+    }
+  }, [userId, editCryptos])
+
   return (
     <div className='portfolio-container white-background grey-color'>
       <h1 className='portfolio-title'>Your Portfolio</h1>
@@ -90,7 +163,7 @@ const Portfolio = () => {
         <div className='portfolio-section-container'>
           <div className='portfolio-section-info'>
             <h2 className='portfolio-section-title'>Stocks</h2>
-            <StockTable allStocks={stocks} userId={userId} handleEditStock={handleEditStock} />
+            <StockTable allStocks={stocks} userId={userId} handleEditStock={handleEditStock} handleRemoveStock={handleRemoveStock} />
           </div>
           <div className='portfolio-section-chart'>
             <h2 className='portfolio-section-title'>Top Holdings</h2>
@@ -102,11 +175,11 @@ const Portfolio = () => {
         <div className='portfolio-section-container'>
           <div className='portfolio-section-info'>
             <h2 className='portfolio-section-title'>Crypto</h2>
-            <StockTable allStocks={stocks} handleEditStock={handleEditStock} />
+            <StockTable allStocks={cryptos} userId={userId} handleEditStock={handleEditCrypto} handleRemoveStock={handleRemoveCrypto} />
           </div>
           <div className='portfolio-section-chart'>
             <h2 className='portfolio-section-title'>Top Holdings</h2>
-            <DonutChart />
+            <DonutChart labelSet={clabels} dataSet={cdata} />
           </div>
         </div>
       </div>
