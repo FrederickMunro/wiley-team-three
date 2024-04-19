@@ -116,6 +116,11 @@
   border-radius: 5rem;
 }
 
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+}
+
 @media only screen and (max-width: 849px) {
   
   .portfolio-title {
@@ -167,6 +172,10 @@
   .portfolio-edit-img {
     width: 80%;
   }
+
+  .stats-container {
+    font-size: max(1.1rem, 3vw);
+  }
 }
 
 @media only screen and (min-width: 850px) {
@@ -216,6 +225,10 @@
     justify-content: space-around;
     width: 30rem;
     align-self: center;
+  }
+
+  .stats-container {
+    font-size: 2rem;
   }
 }
 

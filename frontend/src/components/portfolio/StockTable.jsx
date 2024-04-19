@@ -40,6 +40,11 @@ const StockTable = ({ allStocks, userId, handleEditStock, handleRemoveStock }) =
         handleEditStock={handleEditStock}
         handleRemoveStock={handleRemoveStock}
       />
+      <div className='stats-container'>
+        <p>{`Invested: $${allStocks.reduce((total, stock) => total + (stock.quantity * stock.purchasePrice), 0).toFixed(2)}`}</p>
+        <p>{`Current value: $${total.toFixed(2)}`}</p>
+        <p>{`Profits: $${(total - allStocks.reduce((total, stock) => total + (stock.quantity * stock.purchasePrice), 0)).toFixed(2)}`}</p>
+      </div>
     </div>
   );
 }
