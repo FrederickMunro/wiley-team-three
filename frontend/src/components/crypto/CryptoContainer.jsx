@@ -5,14 +5,6 @@ import AreaChart from '../charts/AreaChart';
 import { useEffect, useState } from 'react';
 
 const CryptoContainer = ({ crypto, labelSet, dataSet }) => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const BEARER_TOKEN = document.cookie.split('=')[1];
-
-  useEffect(() => {
-    if (dataSet && dataSet.length > 0) {
-      console.log(labelSet, dataSet);
-    }
-  }, [dataSet])
 
   return (
     <div className='crypto-chart-container grey-background'>

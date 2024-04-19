@@ -60,16 +60,15 @@ const Crypto = () => {
               price: pd.close.toFixed(2),
             }
           })
-        })
-        info.forEach(item => {
-          labels.push(item.map(i => {
-              return i.time;
-            })
-          )
-          data.push(item.map(i => {
-            return i.price;
-          }))
         });
+        const tempLabels = [];
+        const tempData = [];
+        info.forEach(item => {
+          tempLabels.push(item.map(i => i.time));
+          tempData.push(item.map(i => i.price));
+        });
+        setLabels(tempLabels);
+        setData(tempData);
       })
       .catch(err => {
         console.error('Error fetching crypto historical data.', err);
@@ -103,22 +102,23 @@ const Crypto = () => {
     }
   }, [allTickers])
 
-  useEffect(() => {
-    console.log('labels',labels);
-  }, [labels])
-  
-  useEffect(() => {
-    console.log('labels',data);
-  }, [data])
-
   return (
     <div className='crypto-container white-background'>
       {
-        crypto && crypto.map((item, i) => {
-          return <CryptoContainer key={item.id} crypto={item} labelSet={labels[i]} dataSet={data[i]} />
-        })
+        crypto && labels && data ? (
+          crypto.map((item, i) => (
+            <CryptoContainer
+              key={item.id}
+              crypto={item}
+              labelSet={labels[i]}
+              dataSet={data[i]}
+            />
+          ))
+        ) : (
+          <p>Loading...</p>
+        )
       }
-    </div>
+  </div>
   );
 }
 
