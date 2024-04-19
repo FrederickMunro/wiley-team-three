@@ -9,4 +9,5 @@ public interface PortfolioStockRepository extends JpaRepository<PortfolioStock, 
     List<PortfolioStock> findByUser_Id(Integer userId);
 
     void deleteByUser_Id(Integer userId);
+
 }
