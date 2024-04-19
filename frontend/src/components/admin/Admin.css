@@ -26,6 +26,10 @@
   margin: 1vw;
   padding: 2rem;
   border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
 }
 
 .admin-input {
@@ -98,6 +102,12 @@
   font-weight: 600;
 }
 
+.admin-crypto-add-button {
+  border: 1px solid var(--main-color);
+  border-radius: 1rem;
+  margin-top: 1rem;
+}
+
 @media only screen and (max-width: 767px) {
   .admin-container {
     flex-direction: column;
@@ -144,7 +154,11 @@
   }
 
   .admin-crypto-add-label {
-    font-size: min(max(1.5rem, 3vw), 2rem);
+    font-size: min(max(1.5rem, 3vw), 3rem);
+  }
+
+  .admin-crypto-input {
+    font-size: min(max(1.5rem, 2.5vw), 2.5rem);
   }
 
   .admin-td-header {
@@ -169,6 +183,11 @@
   .admin-dropdown {
     padding: 1vw 3vw 1vw 4vw;
     font-size: max(1rem, 2vw);
+  }
+
+  .admin-crypto-add-button {
+    padding: 1vw 2vw 1vw 2vw;
+    font-size: max(1.5rem, 2vw);
   }
 }
 
@@ -241,6 +260,19 @@
     padding: .9vw 3vw .9vw 4vw;
     font-size: max(1rem, 1.8vw);
   }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
+  }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1499px) {
@@ -304,6 +336,23 @@
   .admin-dropdown {
     padding: .8vw 2.5vw .8vw 3.2vw;
     font-size: max(1rem, 1.8vw);
+  }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
   }
 }
 
@@ -371,5 +420,22 @@
   .admin-dropdown {
     padding: 1rem 4rem 1rem 4rem;
     font-size: min(3rem, 1.8vw);
+  }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
   }
 }

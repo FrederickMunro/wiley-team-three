@@ -33,6 +33,13 @@ const Admin = () => {
     axios.post(`${API_URL}/crypto/?ticker=${addCrypto.ticker}usd`)
     .then(res => {
       console.log('Successfully added crypto.')
+      setSupportedCrypto(prev => [...prev, {
+        ticker: res.data.baseCurrency.toUpperCase(),
+        currency: res.data.quoteCurrency.toUpperCase(),
+        id: res.data.id,
+        lastPrice: res.data.lastPrice,
+        fullTicker: res.data.ticker
+      }])
     })
     .catch(err => {
       console.log('Unable to add crypto.', res);
@@ -143,12 +150,12 @@ const Admin = () => {
                     name="ticker"
                     value={addCrypto.ticker}
                     onChange={handleInputChange}
-                    className='white-background grey-color modal-input'
+                    className='admin-crypto-input white-background grey-color modal-input'
                     placeholder="Ticker"
                   />
                 </div>
               </div>
-              <button onClick={() => handleAddCrypto()}>Add</button>
+              <button className='admin-crypto-add-button white-background grey-color' onClick={() => handleAddCrypto()}>Add</button>
             </div>
           </div>
         )

@@ -46,7 +46,7 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks, type }) => {
         console.log('Unable to add stock', err)
       })
     } else if (title === 'Supported Crypto') {
-      const stockToRemove = allStocks.filter(s=> s.fullTicker === stock.fullTicker)[0];
+      const stockToRemove = allStocks.filter(s=> s.id === stock.id)[0];
       axios.delete(`${API_URL}/crypto/${stockToRemove.id}`, {
         headers: {
           Authorization: `Bearer ${BEARER_TOKEN}`
@@ -54,7 +54,8 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks, type }) => {
       })
       .then(res => {
         console.log('Successfully removed crypto.');
-        setSupportedStocks(allStocks.filter(s => s.symbol !== stockToRemove.symbol));
+        const fullCrypto = allStocks.filter(c => (c.id !== stockToRemove.id))
+        setSupportedStocks(fullCrypto);
       })
       .catch(err => {
         console.log('Unable to remove crypto', err);
