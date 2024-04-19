@@ -20,7 +20,7 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
   const handleClick = () => {
     if (title === 'Supported Stocks') {
       const stockToRemove = allStocks.filter(s=> s.symbol === stock.symbol)[0];
-      axios.delete(`${API_URL}/admin/stocks/${stockToRemove.id}`, {
+      axios.delete(`${API_URL}/stocks/${stockToRemove.id}`, {
         headers: {
           Authorization: `Bearer ${BEARER_TOKEN}`
         }
@@ -33,7 +33,7 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
         console.log('Unable to remove stock', err);
       })
     } else {
-      axios.post(`${API_URL}/admin/stocks?symbol=${stock.symbol}`, null, {
+      axios.post(`${API_URL}/stocks/?symbol=${stock.symbol}`, null, {
         headers: {
           Authorization: `Bearer ${BEARER_TOKEN}`
         }
@@ -43,7 +43,7 @@ const TableRow = ({ stock, title, allStocks, setSupportedStocks }) => {
         setSupportedStocks(prev => [...prev, res.data]);
       })
       .catch(err => {
-        console.log('Unable to remove stock', err)
+        console.log('Unable to add stock', err)
       })
     }
   }

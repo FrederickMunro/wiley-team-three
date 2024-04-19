@@ -51,7 +51,7 @@ const Market = () => {
     <div className='market-container white-background grey-color'>
       {
         stocks && stocks.map(stock => {
-          return <StockContainer key={stock.id} stock={stock} />
+          return <StockContainer key={stock.id} stock={stock} userId={user.userId} />
         })
       }
     </div>
