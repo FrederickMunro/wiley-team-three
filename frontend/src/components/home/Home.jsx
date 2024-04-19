@@ -6,18 +6,21 @@ import './Home.css';
 import { useContext, useEffect, useState } from 'react';
 import CookieContext from '../CookieProvider';
 
+import CryptoSupport from '../../assets/crypto-support.svg';
+import Arrow from '../../assets/arrow.svg';
+
 const Home = () => {
 
   const { cookieExists } = useContext(CookieContext);
 
   return (
     <div className='home-container'>
-      <div className='home-section-container white-background home-main'>
+      <div className='home-section-container white-background home-main two'>
         <div className='home-section'>
           <h1 className='home-section-title'>Invest. Trade. Track. Grow.</h1>
           <p className='home-section-text'>
-            Stock Trader provides a secure environment for acquiring, trading, and monitoring financial market assets.
-            Our platform enables seamless trading of stocks, ETFs, and cryptocurrencies through an intuitive and efficient interface.
+            Welcome to our platform designed to empower your financial journey. Dive into a 
+            world of possibilities where you can invest, trade, and grow your wealth with confidence.
           </p>
           {
             cookieExists ? null : (
@@ -30,7 +33,7 @@ const Home = () => {
           }
         </div>
       </div>
-      <div className='home-section-container grey-background home-chart'>
+      <div className='home-section-container grey-background home-chart one'>
         <div className='home-section chart'>
           <AreaChart />
         </div>
@@ -57,6 +60,26 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className='home-section-container grey-background home-main three'>
+        <img className='home-crypto-support' src={CryptoSupport} />
+      </div>
+      <div className='home-section-container white-background home-chart second-row four'>
+        <h1 className='home-section-title'>We support cryptocurrencies</h1>
+        <p className='home-section-text'>
+          Embrace the future of finance with us. Explore our platform's comprehensive support 
+          for cryptocurrencies and unlock new opportunities in the digital asset space.
+        </p>
+      </div>
+      <div className='home-section-container white-background home-main six'>
+        <h1 className='home-section-title'>Track your progress</h1>
+        <p className='home-section-text'>
+          Stay informed, stay ahead. Effortlessly track your investment progress and visualize your 
+          financial growth over time with our intuitive tracking tools.
+        </p>
+      </div>
+      <div className='home-section-container grey-background home-chart second-row five'>
+        <img className='home-crypto-support' src={Arrow} />
       </div>
     </div>
   );

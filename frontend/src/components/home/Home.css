@@ -2,12 +2,25 @@
   background-color: var(--second-color);
 }
 
+.home-crypto-support {
+  max-height: 300px;
+  height: 15vw;
+  min-height: 200px;
+  align-self: center;
+}
+
 
 @media only screen and (max-width: 767px) {
   .home-container {
     display: flex;
     flex-direction: column;
     height: fit-content;
+  }
+
+  .home-crypto-support {
+    height: 15vw;
+    min-height: 200px;
+    margin-left: 25%;
   }
 
   .home-section-container {
@@ -89,6 +102,30 @@
     margin: 0;
     font-size: min(max(1.5rem, 3vw), 2rem);
   }
+
+  .one {
+    order: 1;
+  }
+
+  .two {
+    order: 2;
+  }
+
+  .three {
+    order: 3;
+  }
+
+  .four {
+    order: 4;
+  }
+
+  .five {
+    order: 5;
+  }
+
+  .six {
+    order: 6;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
@@ -96,6 +133,7 @@
     display: flex;
     flex-direction: row;
     height: fit-content;
+    flex-wrap: wrap;
   }
 
   .home-section-container {
@@ -103,7 +141,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: 46vw;
   }
 
   .home-section-title {
@@ -196,15 +234,16 @@
     display: flex;
     flex-direction: row;
     height: fit-content;
+    flex-wrap: wrap;
   }
 
   .home-section-container {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: calc(50% - 5rem - 5vw);
   }
 
   .home-chart {
@@ -307,6 +346,7 @@
     display: flex;
     flex-direction: row;
     height: fit-content;
+    flex-wrap: wrap;
   }
 
   .home-section-container {
@@ -315,7 +355,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: calc(50% - 5rem - 10vw);
   }
 
   .home-chart {
@@ -418,6 +458,7 @@
     display: flex;
     flex-direction: row;
     height: fit-content;
+    flex-wrap: wrap;
   }
 
   .home-section-container {
@@ -426,7 +467,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: calc(50% - 5rem - 15vw);
   }
 
   .home-chart {

@@ -1,0 +1,243 @@
+
+.market-dropdown {
+  border: 3px solid var(--main-color);
+  border-radius: 2rem;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 767px) {
+  .market-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    min-height: 100vh;
+  }
+  
+  .market-dropdown {
+    padding: 1.5vw 3vw 1.5vw 4vw;
+    font-size: max(1.5rem, 3vw);
+  }
+
+  .dropdown {
+    margin: 1vw 0 0 1vw;
+    align-self: flex-start;
+  }
+
+  .market-stock-container {
+    width: 92vw;
+    border-radius: 2rem;
+    padding: 3vw;
+    margin: 1vw 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .market-stock-container-section-left {
+    margin-right: 1vw;
+  }
+
+  .market-stock-container-section-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .market-stock-name {
+    font-size: max(1.5rem, min(4vw, 2.5rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-symbol {
+    font-size: max(1.2rem, min(4vw, 2.2rem));
+    margin: 0;
+    padding: 0;
+    margin: 1vw 0 1vw 0;
+  }
+
+  .market-stock-exchange {
+    font-size: max(1rem, min(4vw, 2rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-last-price {
+    font-size: max(1.5rem, min(5vw, 3rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-add-button {
+    background: none;
+    border: 1px solid white;
+    cursor: pointer;
+    padding: 1px 1px 0 1px;
+    margin: 0 0 0 4vw;
+    border-radius: 1rem;
+  }
+
+  .market-add-image {
+    width: max(2rem, min(5vw, 3rem));
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .market-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    min-height: 100vh;
+  }
+  
+  .market-dropdown {
+    padding: 1rem 3rem 1rem 4rem;
+    font-size: min(2.5rem, 3vw);
+  }
+
+  .dropdown {
+    margin: 1rem 0 0 5vw;
+    align-self: flex-start;
+  }
+
+  .market-stock-container {
+    width: 85vw;
+    border-radius: 2rem;
+    padding: 3vw;
+    margin: 1vw 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .market-stock-container-section-left {
+    margin-right: 1vw;
+  }
+
+  .market-stock-container-section-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .market-stock-name {
+    font-size: max(1.5rem, min(4vw, 2.5rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-symbol {
+    font-size: max(1.5rem, min(4vw, 2.2rem));
+    margin: 0;
+    padding: 0;
+    margin: 1vw 0 1vw 0;
+  }
+
+  .market-stock-exchange {
+    font-size: max(1.5rem, min(4vw, 2rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-last-price {
+    font-size: max(1.5rem, min(5vw, 3rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-add-button {
+    background: none;
+    border: 1px solid white;
+    cursor: pointer;
+    padding: 1px 1px 0 1px;
+    margin: 0 0 0 4vw;
+    border-radius: 1rem;
+  }
+
+  .market-add-image {
+    width: max(2rem, min(5vw, 3rem));
+  }
+}
+
+@media only screen and (min-width: 1199px) {
+  .market-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    min-height: 100vh;
+  }
+  
+  .market-dropdown {
+    padding: 1rem 3rem 1rem 4rem;
+    font-size: min(2.5rem, 3vw);
+  }
+
+  .dropdown {
+    margin: 1rem 0 0 -88rem;
+    align-self: center;
+  }
+
+  .market-stock-container {
+    width: 1000px;
+    border-radius: 2rem;
+    padding: 3rem;
+    margin: 1rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .market-stock-container-section-left {
+    margin-right: 1vw;
+  }
+
+  .market-stock-container-section-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .market-stock-name {
+    font-size: max(1.5rem, min(4vw, 2.5rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-symbol {
+    font-size: max(1.5rem, min(4vw, 2.2rem));
+    margin: 0;
+    padding: 0;
+    margin: 1rem 0 1rem 0;
+  }
+
+  .market-stock-exchange {
+    font-size: max(1.5rem, min(4vw, 2rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-stock-last-price {
+    font-size: max(1.5rem, min(5vw, 3rem));
+    margin: 0;
+    padding: 0;
+  }
+
+  .market-add-button {
+    background: none;
+    border: 1px solid white;
+    cursor: pointer;
+    padding: 1px 1px 0 1px;
+    margin: 0 0 0 4vw;
+    border-radius: 1rem;
+  }
+
+  .market-add-image {
+    width: max(2rem, min(5vw, 3rem));
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+}
+
+@media only screen and (min-width: 2000px) {
+}

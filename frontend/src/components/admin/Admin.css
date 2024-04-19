@@ -1,6 +1,12 @@
 .admin-container {
-  height: max(calc(100vh - min(max(5rem, 12vw), 7.5rem)),calc(100% - min(max(5rem, 12vw), 7.5rem)));
+  min-height: calc(100vh - min(max(5rem, 12vw), 7.5rem));
   display: flex;
+}
+
+.input-cont {
+  display:flex;
+  flex-direction: column;
+  margin: 1rem;
 }
 
 .admin-table-title {
@@ -14,6 +20,16 @@
 .admin-table-container {
   margin: 1vw;
   border-radius: 2rem;
+}
+
+.crypto-add-container {
+  margin: 1vw;
+  padding: 2rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
 }
 
 .admin-input {
@@ -80,6 +96,18 @@
   width: 100%;
 }
 
+.admin-dropdown {
+  border: 3px solid var(--main-color);
+  border-radius: 2rem;
+  font-weight: 600;
+}
+
+.admin-crypto-add-button {
+  border: 1px solid var(--main-color);
+  border-radius: 1rem;
+  margin-top: 1rem;
+}
+
 @media only screen and (max-width: 767px) {
   .admin-container {
     flex-direction: column;
@@ -91,6 +119,12 @@
 
   .admin-table-container {
     padding: 2vw;
+  }
+
+  .crypto-add-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .admin-input {
@@ -119,6 +153,14 @@
     padding: 1vw;
   }
 
+  .admin-crypto-add-label {
+    font-size: min(max(1.5rem, 3vw), 3rem);
+  }
+
+  .admin-crypto-input {
+    font-size: min(max(1.5rem, 2.5vw), 2.5rem);
+  }
+
   .admin-td-header {
     border: 1px solid white;
     font-size: min(max(1rem, 3vw), 1.8rem);
@@ -133,6 +175,19 @@
   .admin-add-remove {
     width: min(6vw, 3.5rem);
     height: min(6vw, 3.5rem);
+  }
+
+  .adropdown {
+    padding: 1rem 0 0 1rem;
+  }
+  .admin-dropdown {
+    padding: 1vw 3vw 1vw 4vw;
+    font-size: max(1rem, 2vw);
+  }
+
+  .admin-crypto-add-button {
+    padding: 1vw 2vw 1vw 2vw;
+    font-size: max(1.5rem, 2vw);
   }
 }
 
@@ -197,6 +252,27 @@
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
   }
+
+  .adropdown {
+    padding: 1rem 0 0 1rem;
+  }
+  .admin-dropdown {
+    padding: .9vw 3vw .9vw 4vw;
+    font-size: max(1rem, 1.8vw);
+  }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
+  }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1499px) {
@@ -252,6 +328,31 @@
   .admin-add-remove {
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
+  }
+
+  .adropdown {
+    padding: 2rem 0 0 2rem;
+  }
+  .admin-dropdown {
+    padding: .8vw 2.5vw .8vw 3.2vw;
+    font-size: max(1rem, 1.8vw);
+  }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
   }
 }
 
@@ -311,5 +412,30 @@
   .admin-add-remove {
     width: min(6vw, 4rem);
     height: min(6vw, 4rem);
+  }
+
+  .adropdown {
+    padding: 2rem 0 0 6vw;
+  }
+  .admin-dropdown {
+    padding: 1rem 4rem 1rem 4rem;
+    font-size: min(3rem, 1.8vw);
+  }
+
+  .admin-crypto-add-label {
+    font-size: 2.5rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-input {
+    font-size: 2rem;
+  }
+
+  .admin-crypto-add-button {
+    padding: .8rem 1.6rem .8rem 1.6rem;
+    font-size: 2rem;
   }
 }

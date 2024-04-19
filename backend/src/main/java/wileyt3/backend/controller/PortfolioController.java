@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/portfolio")
 @Validated
+@CrossOrigin
 public class PortfolioController {
 
     @Autowired

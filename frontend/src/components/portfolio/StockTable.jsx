@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import './Admin.css';
-import Table from './Table';
-import TableNav from './TableNav';
-import TableSearch from './TableSearch';
+import { useEffect, useState } from 'react';
+import StockT from './StockT';
+import TableNav from '../admin/TableNav';
+import TableSearch from '../admin/TableSearch';
 
-const AdminTable = ({ title, allStocks, setSupportedStocks, type }) => {
+const StockTable = ({ allStocks, userId, handleEditStock, handleRemoveStock }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedStocks, setDisplayedStocks] = useState([]);
-  const stocksPerPage = 25;
+  const [total, setTotal] = useState(1);
+  const stocksPerPage = 5;
   const totalPages = Math.ceil(displayedStocks.length / stocksPerPage);
   const firstStockInList = (currentPage - 1) * stocksPerPage;
   const lastStockInList = Math.min(firstStockInList + stocksPerPage - 1, displayedStocks.length - 1);
@@ -16,17 +16,16 @@ const AdminTable = ({ title, allStocks, setSupportedStocks, type }) => {
 
   useEffect(() => {
     setDisplayedStocks(allStocks);
+    setTotal(allStocks.reduce((sum, stock) => sum + (stock.quantity * stock.lastPrice), 0));
   }, [allStocks]);
 
   return (
     <div className='admin-table-container grey-background'>
-      <h2 className='admin-table-title'>{title}</h2>
       <div className="admin-nav-container">
         <TableSearch
           setDisplayedStocks={setDisplayedStocks}
           allStocks={allStocks}
           setCurrentPage={setCurrentPage}
-          type={type}
         />
         <TableNav
           totalpages={totalPages}
@@ -34,15 +33,21 @@ const AdminTable = ({ title, allStocks, setSupportedStocks, type }) => {
           setcurrentpage={setCurrentPage}
         />
       </div>
-      <Table
+      <StockT
         stocksInPage={stocksInPage}
-        title={title}
-        allStocks={allStocks}
-        setSupportedStocks={setSupportedStocks}
-        type={type}
+        total={total}
+        userId={userId}
+        handleEditStock={handleEditStock}
+        handleRemoveStock={handleRemoveStock}
       />
+      <div className='stats-container'>
+        <p>{`Invested: $${allStocks.reduce((total, stock) => total + (stock.quantity * stock.purchasePrice), 0).toFixed(2)}`}</p>
+        <p>{`Current value: $${total.toFixed(2)}`}</p>
+        <p>{`Profits: $${(total - allStocks.reduce((total, stock) => total + (stock.quantity * stock.purchasePrice), 0)).toFixed(2)}`}</p>
+      </div>
     </div>
   );
 }
 
-export default AdminTable;
+
+export default StockTable;

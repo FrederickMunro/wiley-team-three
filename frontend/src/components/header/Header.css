@@ -35,6 +35,10 @@
   margin: 1rem;
 }
 
+.login-link {
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 767px) {
   .header-container {
     width: 100vw;

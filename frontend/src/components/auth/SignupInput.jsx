@@ -1,7 +1,13 @@
-const SignupInput = ({ title, placeholder, value, setValue, type, borderColor }) => {
+const SignupInput = ({ title, placeholder, value, setValue, type, borderColor, handleSubmit }) => {
 
   const handleValueChange = (e) => {
     setValue(e.target.value);
+  }
+
+  const handleEnterPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
   }
 
   return (
@@ -13,6 +19,7 @@ const SignupInput = ({ title, placeholder, value, setValue, type, borderColor })
         value={value}
         onChange={handleValueChange}
         type={type}
+        onKeyDown={handleEnterPress}
       />
     </div>
   );
