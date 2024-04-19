@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-const EditModal = ({ isOpen, handleClose, stock, userId }) => {
+const EditModal = ({ isOpen, handleClose, stock, userId, handleEditStock }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
   const [editedStock, setEditedStock] = useState(stock); // Initialize edited stock state with current stock
@@ -33,6 +33,7 @@ const EditModal = ({ isOpen, handleClose, stock, userId }) => {
   // Save edited stock
   const handleSave = () => {
     axios.put(`${API_URL}/portfolio/update`, {
+      id: editedStock.portfolioStockId,
       userId: userId,
       symbol: editedStock.symbol,
       quantity: editedStock.quantity,
@@ -42,11 +43,23 @@ const EditModal = ({ isOpen, handleClose, stock, userId }) => {
         Authorization: `Bearer ${BEARER_TOKEN}`
       }
     })
-    .then(() => {
+    .then(res => {
       handleClose();
+      const newStock = {
+        symbol: stock.symbol,
+        name: stock.name,
+        exchange: stock.exchange,
+        lastPrice: stock.lastPrice,
+        quantity: res.data.quantityOwned,
+        purchasePrice: res.data.purchasePrice,
+        purchaseDate: stock.purchaseDate,
+        portfolioStockId: stock.id
+      }
+      handleEditStock(newStock);
+      console.log('Successfully edited stock holdings.', res);
     })
-    .catch(error => {
-      console.error('Error updating stock:', error);
+    .catch(err => {
+      console.error('Error updating stock:', err);
     });
   };
 
@@ -57,7 +70,7 @@ const EditModal = ({ isOpen, handleClose, stock, userId }) => {
       }
     })
     .then(res => {
-      console.log(res);
+      console.log('Successfully deleted stock.');
     })
     .catch(err => {
       console.log('Unable to delete entry.', err);

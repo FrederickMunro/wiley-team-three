@@ -13,11 +13,21 @@ const Portfolio = () => {
 
   const [username, setUsername] = useState();
   const [userId, setUserId] = useState();
-
+  const [editStocks, setEditStocks] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState([]);
   const maxStocksInChart = 20;
+
+  const handleEditStock = (newStock) => {
+    const stocksEdited = [...stocks];
+    stocksEdited.forEach(stock => {
+      if (stock.portfolioStockId === newStock.portfolioStockId) {
+        return newStock;
+      }
+    })
+    setEditStocks(stocksEdited);
+  }
 
   useEffect(() => {
     axios.get(`${API_URL}/user-info?token=${BEARER_TOKEN}`)
@@ -29,7 +39,16 @@ const Portfolio = () => {
     .catch(err => {
       console.log('Unable to retrieve user information.', err);
     })
-  }, []);
+
+    const tempLabels = [];
+    const tempData = [];
+    stocks.forEach(stock => {
+      tempLabels.push(stock.symbol);
+      tempData.push(stock.quantity * stock.lastPrice);
+    })
+    setLabels(tempLabels.slice(0, maxStocksInChart));
+    setData(tempData.slice(0, maxStocksInChart));
+  }, [stocks]);
   
 
   useEffect(() => {
@@ -40,7 +59,7 @@ const Portfolio = () => {
         }
       })
       .then(res => {
-        console.log('Successfully retrieved user stock portfolio.', res.data);
+        console.log('Successfully retrieved user stock portfolio.');
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
         const tempStocks = res.data.map(stock => {
           const date = new Date(stock.purchaseDate);
@@ -62,18 +81,7 @@ const Portfolio = () => {
         console.log('Unable to retrieve user stock portfolio.', err);
       })
     }
-  }, [userId])
-
-  useEffect(() => {
-    const tempLabels = [];
-    const tempData = [];
-    stocks.forEach(stock => {
-      tempLabels.push(stock.symbol);
-      tempData.push(stock.quantity * stock.lastPrice);
-    })
-    setLabels(tempLabels.slice(0, maxStocksInChart));
-    setData(tempData.slice(0, maxStocksInChart));
-  }, [stocks])
+  }, [userId, editStocks])
 
   return (
     <div className='portfolio-container white-background grey-color'>
@@ -82,7 +90,7 @@ const Portfolio = () => {
         <div className='portfolio-section-container'>
           <div className='portfolio-section-info'>
             <h2 className='portfolio-section-title'>Stocks</h2>
-            <StockTable allStocks={stocks} setSupportedStocks={setStocks} userId={userId} />
+            <StockTable allStocks={stocks} userId={userId} handleEditStock={handleEditStock} />
           </div>
           <div className='portfolio-section-chart'>
             <h2 className='portfolio-section-title'>Top Holdings</h2>
@@ -94,9 +102,10 @@ const Portfolio = () => {
         <div className='portfolio-section-container'>
           <div className='portfolio-section-info'>
             <h2 className='portfolio-section-title'>Crypto</h2>
-            <StockTable allStocks={stocks} setSupportedStocks={setStocks} />
+            <StockTable allStocks={stocks} handleEditStock={handleEditStock} />
           </div>
           <div className='portfolio-section-chart'>
+            <h2 className='portfolio-section-title'>Top Holdings</h2>
             <DonutChart />
           </div>
         </div>

@@ -3,7 +3,7 @@ import StockT from './StockT';
 import TableNav from '../admin/TableNav';
 import TableSearch from '../admin/TableSearch';
 
-const StockTable = ({ allStocks, userId, setSupportedStocks }) => {
+const StockTable = ({ allStocks, userId, handleEditStock }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedStocks, setDisplayedStocks] = useState([]);
@@ -37,6 +37,7 @@ const StockTable = ({ allStocks, userId, setSupportedStocks }) => {
         stocksInPage={stocksInPage}
         total={total}
         userId={userId}
+        handleEditStock={handleEditStock}
       />
     </div>
   );

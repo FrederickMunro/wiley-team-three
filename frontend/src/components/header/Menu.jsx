@@ -56,6 +56,8 @@ const Menu = () => {
                 return null;
               } else if ((!cookieExists || role !== 'ADMIN') && item === 'Admin') {
                 return null;
+              } else if ((!cookieExists || (role !== 'ANALYST' && role !== 'TRADER')) && item === 'Market') {
+                return null;
               } else {
                 return <MenuItem key={index} title={item.toUpperCase()} handlemenuclick={handleMenuClick} />
               }

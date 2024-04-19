@@ -7,7 +7,7 @@ import Edit from '../../assets/edit.svg';
 import { useState } from 'react';
 import EditModal from './EditModal';
 
-const TableRowT = ({ stock, total, userId }) => {
+const TableRowT = ({ stock, total, userId, handleEditStock }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const BEARER_TOKEN = document.cookie.split('=')[1];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,9 +26,9 @@ const TableRowT = ({ stock, total, userId }) => {
         <td className='admin-td'>{stock.symbol}</td>
         <td className='admin-td'>{stock.name}</td>
         <td className='admin-td'>{stock.quantity}</td>
-        <td className='admin-td'>{stock.purchaseDate}</td>
-        <td className='admin-td'>{`$${stock.purchasePrice.toFixed(2)}`}</td>
-        <td className='admin-td'>{`$${stock.lastPrice.toFixed(2)}`}</td>
+        <td className='admin-td no-small'>{stock.purchaseDate}</td>
+        <td className='admin-td no-small'>{`$${stock.purchasePrice.toFixed(2)}`}</td>
+        <td className='admin-td no-small'>{`$${stock.lastPrice.toFixed(2)}`}</td>
         <td className='admin-td'>{`$${(stock.lastPrice * stock.quantity).toFixed(2)}`}</td>
         <td className='admin-td'>{`${((stock.lastPrice * stock.quantity / total) * 100).toFixed(2)}%`}</td>
         <td className='admin-td'>
@@ -37,7 +37,7 @@ const TableRowT = ({ stock, total, userId }) => {
           </button>
         </td>
       </tr>
-      <EditModal stock={stock} isOpen={isModalOpen} handleClose={handleCloseModal} userId={userId} />
+      <EditModal stock={stock} isOpen={isModalOpen} handleClose={handleCloseModal} userId={userId} handleEditStock={handleEditStock} />
     </>
   );
 }
