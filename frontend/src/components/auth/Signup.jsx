@@ -122,11 +122,11 @@ const Signup = () => {
           borderColor={passwordBorderColor}
           handleSubmit={handleSubmit}
         />
-        <h3 className='signup-input-title-select'>Role</h3>
+        {/* <h3 className='signup-input-title-select'>Role</h3>
         <select className='auth-select white-background grey-color' value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
           <option value="Trader">Trader</option>
           <option value="Analyst">Analyst</option>
-        </select>
+        </select> */}
         {
           passwordError !== "" &&
           <p className="signup-input-error-message">{passwordError}</p>
