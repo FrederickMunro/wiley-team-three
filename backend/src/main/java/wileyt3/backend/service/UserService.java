@@ -64,7 +64,7 @@ public class UserService {
 
         User user = userMapper.signUpToUser(userDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.password())));
-        user.setRole(defaultRole);
+        user.setRole(userDto.role() == null ? defaultRole : roleRepository.findByName(userDto.role().toUpperCase()).orElseThrow(() -> new AppException("Unknown role", HttpStatus.NOT_FOUND)));
 
         User savedUser = userRepository.save(user);
         return userMapper.toUserDto(savedUser);
